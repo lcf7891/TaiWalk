@@ -37,5 +37,5 @@ function btnChange() {
       <span></span>
     </button>
   </header>
-  <div class="nav-backdrop" v-if="toggleMenu"></div>
+  <div class="nav-backdrop" v-show="toggleMenu"></div>
 </template>
