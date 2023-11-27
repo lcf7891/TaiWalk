@@ -1,0 +1,14 @@
+@layer base {
+  label {
+    @apply min-w-full;
+  }
+  select, input {
+    @apply text-quinary w-full border hover:border-quaternary border-light rounded-[5px] py-3 px-8 focus-visible:outline-none;
+  }
+  option {
+    @apply text-dark;
+  }
+  input {
+    @apply bg-info;
+  }
+}

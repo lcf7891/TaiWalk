@@ -1,0 +1,39 @@
+@layer components {
+  /* search */
+  .btn-search {
+    @apply flex justify-center items-center bg-secondary hover:bg-quaternary text-white leading-7 font-bold tracking-[1.5rem] rounded-[5px] py-2 px-6;
+  }
+  .btn-search img {
+    @apply w-[30px] h-[30px] object-cover mr-[10px];
+  }
+
+  /* mobile */
+  .btn-mobile {
+    @apply fixed top-2 right-2 md:hidden flex justify-center items-center w-[50px] h-[50px] bg-menu rounded-xl overflow-hidden z-50;
+  }
+  .btn-mobile.active span {
+    @apply first:w-10 first:translate-y-0 first:rotate-45 first:delay-[.125s] even:w-10 even:translate-y-0 even:rotate-[315deg] even:delay-[.25s] last:translate-x-60;
+  }
+  .btn-mobile span {
+    @apply absolute w-10 h-1 bg-white rounded duration-500 first:translate-y-[-12px] first:w-[30px] first:right-[5px] even:translate-y-3 even:w-5 even:right-[5px];
+  }
+
+  /* tag */
+  .btn-tag {
+    @apply md:text-xl text-sm text-tag border border-tag rounded-[20px] px-[18px] py-1 hover:bg-line hover:text-primary;
+  }
+
+  /* spot activity cuisine */
+  .btn-spot, .btn-activity, .btn-cuisine {
+    @apply md:w-auto w-full flex flex-col justify-center items-center font-bold text-secondary tracking-[3px] border-[1.5px] border-light rounded-[5px] hover:border-secondary md:px-11 md:py-6 py-2 before:w-[30px] before:h-[30px] before:object-cover;
+  }
+  .btn-spot {
+    @apply before:bg-[url('@/assets/images/icon/spot30.svg')] hover:before:bg-[url('@/assets/images/icon/spot30-hover.svg')] after:content-['附近景點'];
+  }
+  .btn-activity {
+    @apply before:bg-[url('@/assets/images/icon/calendar30.svg')] hover:before:bg-[url('@/assets/images/icon/calendar30-hover.svg')] after:content-['附近活動'];
+  }
+  .btn-cuisine {
+    @apply before:bg-[url('@/assets/images/icon/food30.svg')] hover:before:bg-[url('@/assets/images/icon/food30-hover.svg')] after:content-['附近美食'];
+  }
+}
