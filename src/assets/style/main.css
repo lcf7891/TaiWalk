@@ -5,6 +5,7 @@
 /* Customize */
 /* base */
 @import './base/fonts.css';
+@import './base/forms.css';
 
 /* components */
 @import './components/buttons.css';

@@ -6,7 +6,7 @@
     @apply text-quinary w-full border hover:border-quaternary border-light rounded-[5px] py-3 px-8 focus-visible:outline-none;
   }
   option {
-    @apply text-dark;
+    @apply text-dark hover:bg-info focus:bg-info;
   }
   input {
     @apply bg-info;
