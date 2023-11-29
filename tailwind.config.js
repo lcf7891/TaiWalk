@@ -20,6 +20,21 @@ module.exports = {
         '4': '#C4C4C4',           // carousel
         'menu': '#A8B8A5',        // mobile menu
       },
+      animation: {
+        'wander': 'wander 1s infinite',
+      },
+      keyframes: {
+        wander: {
+          '0%, 100%': {
+            transform: 'translateX(-25%) rotate(-45deg)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateX(25%) rotate(-45deg)',
+            'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+        }
+      }
     },
   },
   plugins: [],

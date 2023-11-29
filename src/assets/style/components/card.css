@@ -1,0 +1,32 @@
+@layer components {
+  .card-hor {
+    @apply inline-flex;
+  }
+  .card-hor-img {
+    @apply md:w-40 w-20 object-cover md:rounded-l-xl rounded-l-lg duration-300 ease-in-out hover:scale-[1.1] z-10;
+  }
+  .card-hor-body {
+    @apply relative bg-info border border-light md:rounded-r-xl rounded-r-lg md:py-4 md:px-7 px-4;
+  }
+  .card-subtitle {
+    @apply text-primary md:text-base text-xs mb-1;
+  }
+  .card-title {
+    @apply md:text-xl text-base font-bold md:line-clamp-2 line-clamp-1 md:mb-2 mb-1;
+  }
+  .card-footer {
+    @apply flex justify-between;
+  }
+  .card-text {
+    @apply flex items-center text-primary md:text-base text-xs;
+  }
+  .card-btn {
+    @apply md:opacity-100 opacity-0 text-secondary text-base font-medium pr-2 md:before:static before:absolute before:inset-0 after:inline-block after:border-r-2 after:border-b-2 after:border-secondary after:rotate-[-45deg] after:p-1 after:ml-1 hover:after:animate-wander;
+  }
+  .card-ver {
+    @apply relative mb-4;
+  }
+  .card-ver-img {
+    @apply w-full md:h-52 h-40 object-cover rounded-[20px] duration-300 ease-in-out hover:scale-[1.1] z-10 md:mb-3 mb-2;
+  }
+}
