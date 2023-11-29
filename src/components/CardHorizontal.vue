@@ -1,5 +1,5 @@
 <template>
-  <div class="card-hor">
+  <section class="card-hor">
     <img src="https://fakeimg.pl/300/" alt="preview image" class="card-hor-img">
     <div class="card-hor-body">
       <span class="card-subtitle">2021/10/30 - 2021/11/13</span>
@@ -13,8 +13,8 @@
                 alt="position spot">
           城市名稱
         </p>
-        <button class="card-btn" type="button">詳細介紹</button>
+        <button class="card-btn card-btn-hor" type="button">詳細介紹</button>
       </div>
     </div>
-  </div>
+  </section>
 </template>

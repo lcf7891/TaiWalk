@@ -6,7 +6,7 @@ import CardVer from '@/components/CardVertical.vue'
 
 <template>
   <!-- 標語與搜尋 -->
-  <article class="md:py-10 md:mb-5 mb-9">
+  <article class="md:py-10 lg:px-[80px] md:mb-5 mb-9">
     <div class="grid md:grid-cols-5">
       <div class="col-span-3 md:text-left text-center">
         <h2 class="leading-normal font-light

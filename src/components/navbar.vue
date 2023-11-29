@@ -5,7 +5,6 @@ const toggleMenu = ref(false)
 
 function btnChange() {
   toggleMenu.value = !toggleMenu.value
-  console.log(toggleMenu.value)
 }
 </script>
 
