@@ -41,13 +41,16 @@ import CardVer from '@/components/CardVertical.vue'
       </div>
     </div>
   </article>
-  
-  <Carousel />
-
+  <!-- 輪播 -->
+  <article class="md:mb-9 mb-6">
+    <Carousel />
+  </article>
+  <!-- 橫式卡 -->
   <article class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
     <CardHor v-for="num in 4" :key="num+1"></CardHor>
   </article>
-  <article class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4">
+  <!-- 直式卡 -->
+  <article class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4 mb-9">
     <CardVer v-for="num in 4" :key="num+2"></CardVer>
   </article>
 </template>

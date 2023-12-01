@@ -27,7 +27,7 @@
     @apply md:opacity-100 md:before:static;
   }
   .card-ver {
-    @apply relative mb-4;
+    @apply relative;
   }
   .card-ver-img {
     @apply w-full md:h-52 h-40 object-cover rounded-[20px] duration-300 ease-in-out hover:scale-[1.1] z-10 md:mb-3 mb-2;

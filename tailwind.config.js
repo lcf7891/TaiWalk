@@ -17,8 +17,12 @@ module.exports = {
         'tag': '#BEA363',         // tag
         'light': '#E5E5E5',       // light border
         'dark': '#1E1E1E',        // dark 文字預設
-        '4': '#C4C4C4',           // carousel
+        'bullet': '#C4C4C4',           // carousel
         'menu': '#A8B8A5',        // mobile menu
+      },
+      height: {
+        '46': '11.5rem',
+        '100': '25rem',
       },
       animation: {
         'wander': 'wander 1s infinite',
