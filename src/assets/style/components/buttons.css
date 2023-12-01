@@ -18,6 +18,11 @@
     @apply absolute w-10 h-1 bg-white rounded duration-500 first:translate-y-[-12px] first:w-[30px] first:right-[5px] even:translate-y-3 even:w-5 even:right-[5px];
   }
 
+  /* hover */
+  .btn-hover {
+    @apply after:inline-block after:border-r-2 after:border-b-2 after:border-current after:rotate-[-45deg] after:p-1 after:ml-1 hover:after:animate-wander;
+  }
+
   /* tag */
   .btn-tag {
     @apply md:text-xl text-sm text-tag border border-tag rounded-[20px] px-[18px] py-1 hover:bg-line hover:text-primary;

@@ -21,7 +21,7 @@
     @apply flex items-center text-primary md:text-base text-xs;
   }
   .card-btn {
-    @apply opacity-0 text-secondary text-base font-medium pr-2 before:absolute before:inset-0 after:inline-block after:border-r-2 after:border-b-2 after:border-secondary after:rotate-[-45deg] after:p-1 after:ml-1 hover:after:animate-wander;
+    @apply opacity-0 text-secondary text-base font-medium pr-2 before:absolute before:inset-0;
   }
   .card-btn-hor {
     @apply md:opacity-100 md:before:static;
