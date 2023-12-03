@@ -9,7 +9,7 @@ function btnChange() {
 </script>
 
 <template>
-  <header class="navbar">
+  <nav class="navbar">
     <router-link to="/">
       <img class="md:block hidden" src="@/assets/images/icon/Logo-desktop.svg" alt="desktop logo">
       <img class="md:hidden block" src="@/assets/images/icon/Logo-mobile.svg" alt="mobile logo">
@@ -35,6 +35,6 @@ function btnChange() {
       <span></span>
       <span></span>
     </button>
-  </header>
+  </nav>
   <div class="nav-backdrop" v-show="toggleMenu"></div>
 </template>

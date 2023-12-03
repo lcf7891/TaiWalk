@@ -20,7 +20,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <section class="md:pt-9 pt-2 md:mb-8 mb-4">
+  <header class="md:pt-9 pt-2 md:mb-8 mb-4">
     <ul class="flex">
       <li v-for="item in breadcrumb" :key="item.title">
         <RouterLink class="md:text-base text-xs text-quinary hover:text-primary" :to="item.path">{{ item.title }}</RouterLink>
@@ -28,7 +28,7 @@ watchEffect(() => {
       </li>
       <slot></slot>
     </ul>
-  </section>
+  </header>
 </template>
 
 <style lang="scss" scoped>

@@ -5,12 +5,14 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-  <NavBar />
+  <main class="grow">
+    <NavBar />
 
-  <main class="container mx-auto md:pb-12 pb-6 px-4 mb-auto">
-    <RouterView />
+    <section class="container mx-auto md:pb-12 pb-6 px-4 mb-auto">
+      <RouterView />
+    </section>
   </main>
-  
+
   <Footer />
 </template>
 
@@ -21,8 +23,5 @@ import Footer from '@/components/Footer.vue'
   #app {
     display: flex;
     flex-direction: column;
-  }
-  main {
-    flex-grow: 1;
   }
 </style>
