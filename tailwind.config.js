@@ -17,7 +17,7 @@ module.exports = {
         'tag': '#BEA363',         // tag
         'light': '#E5E5E5',       // light border
         'dark': '#1E1E1E',        // dark 文字預設
-        'bullet': '#C4C4C4',           // carousel
+        'bullet': '#C4C4C4',      // carousel
         'menu': '#A8B8A5',        // mobile menu
       },
       height: {

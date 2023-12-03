@@ -13,7 +13,7 @@
                 alt="position spot">
           城市名稱
         </p>
-        <button class="card-btn card-btn-hor btn-hover" type="button">詳細介紹</button>
+        <button class="card-btn card-btn-hor btn-arrow" type="button">詳細介紹</button>
       </div>
     </div>
   </section>
