@@ -26,9 +26,18 @@ watchEffect(() => {
         <RouterLink class="md:text-base text-xs text-quinary hover:text-primary" :to="item.path">{{ item.title }}</RouterLink>
         <span class="text-line mx-2">/</span>
       </li>
-      <li>
-        <slot></slot>
-      </li>
+      <slot></slot>
     </ul>
   </section>
 </template>
+
+<style lang="scss" scoped>
+  li:nth-last-child(1) {
+    a {
+      color: #646464;
+    }
+    span {
+      display: none;
+    }
+  }
+</style>

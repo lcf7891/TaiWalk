@@ -1,32 +1,21 @@
 <script setup>
-// import { ref, watchEffect } from 'vue'
-// import { RouterLink, useRoute } from 'vue-router'
 import Breadcrumb from '@/components/breadcrumb.vue'
-
-// const route = useRoute()
-// const breadcrumb = ref([
-//   {
-//     title: '首頁',
-//     path: '/'
-//   }
-// ])
-
-// watchEffect(() => {
-//   route.matched.forEach(item => {
-//     if(item.meta.title && item.meta.path) {
-//       breadcrumb.value.push(item.meta)
-//     }
-//   })
-// })
 </script>
 
 <template>
-  <Breadcrumb>
-    <!-- <ul class="flex">
-      <li v-for="item in breadcrumb" :key="item.title">
-        <RouterLink class="md:text-base text-xs text-quinary" :to="item.path">{{ item.title }}</RouterLink>
-        <span class="mx-2">/</span>
-      </li>
-    </ul> -->
-  </Breadcrumb> 
+  <Breadcrumb />
+  <form class="grid md:grid-cols-8 md:gap-2 md:pt-2 md:pb-9 mb-4">
+    <label class="md:col-span-2 md:mb-0 mb-2" for="SelectCounty">
+      <select class="h-full" name="SelectCounty" id="SelectCounty">
+        <option value="all">全部縣市</option>
+      </select>
+    </label>
+    <label class="md:col-span-4 md:mb-0 mb-2" for="SearchKey">
+      <input class="h-full md:mb-0 mb-2" type="text" name="SearchKey" id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字">
+    </label>
+    <button class="md:col-span-2 btn-search w-full" type="button">
+      <img src="@/assets/images/icon/search30.svg" alt="search icon">
+      搜尋
+    </button>
+  </form>
 </template>

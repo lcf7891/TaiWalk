@@ -22,7 +22,7 @@ import CardVer from '@/components/CardVertical.vue'
           <span class="md:text-sm text-xs font-bold">Taiwan Travel Guide</span>
         </p>
       </div>
-      <div class="col-span-2 md:flex md:flex-col md:justify-end">
+      <form class="col-span-2 md:flex md:flex-col md:justify-end">
         <label for="SearchOptions">
           <select class="mb-2" name="SearchOptions" id="SearchOptions">
             <option value="ScenicSpot">探索景點</option>
@@ -35,10 +35,10 @@ import CardVer from '@/components/CardVertical.vue'
                   id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字">
         </label>
         <button class="btn-search w-full" type="button">
-          <img src="@/assets/images/icon/search30.svg" alt="">
+          <img src="@/assets/images/icon/search30.svg" alt="search icon">
           搜尋
         </button>
-      </div>
+      </form>
     </div>
   </article>
   <!-- 輪播 -->
