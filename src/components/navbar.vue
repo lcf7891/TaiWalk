@@ -21,7 +21,7 @@ function btnChange() {
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/">探索景點</router-link>
+        <router-link class="nav-link" to="/scenicSpot">探索景點</router-link>
       </li>
       <li class="nav-item md:border-0 border-y border-light">
         <router-link class="nav-link" to="/">節慶活動</router-link>

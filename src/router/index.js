@@ -9,6 +9,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    {
+      path: '/scenicSpot',
+      name: 'ScenicSpot',
+      component: () => import('../views/scenicSpot.vue')
+    }
     // {
     //   path: '/about',
     //   name: 'about',
