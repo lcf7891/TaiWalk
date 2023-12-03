@@ -20,7 +20,7 @@ import Breadcrumb from '@/components/breadcrumb.vue'
   </form>
   <article>
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門分類</h3>
-    <div class="grid md:grid-cols-8 grid-cols-2 md:gap-7 gap-4">
+    <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
         <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-1.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">地方特產</span>
