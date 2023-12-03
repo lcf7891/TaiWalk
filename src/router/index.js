@@ -7,21 +7,39 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: '首頁',
+        path: '/'
+      }
     },
     {
       path: '/scenicSpot',
       name: 'ScenicSpot',
-      component: () => import('../views/scenicSpot.vue')
+      component: () => import('../views/ScenicSpot.vue'),
+      meta: {
+        title: '探索景點',
+        path: '/scenicSpot'
+      }
+    },
+    {
+      path: '/activity',
+      name: 'Activity',
+      component: () => import('../views/ActivityView.vue'),
+      meta: {
+        title: '節慶活動',
+        path: '/activity'
+      }
+    },
+    {
+      path: '/restaurant',
+      name: 'Restaurant',
+      component: () => import('../views/RestaurantView.vue'),
+      meta: {
+        title: '品嘗美食',
+        path: '/restaurant'
+      }
     }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
   ]
 })
 

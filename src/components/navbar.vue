@@ -24,10 +24,10 @@ function btnChange() {
         <router-link class="nav-link" to="/scenicSpot">探索景點</router-link>
       </li>
       <li class="nav-item md:border-0 border-y border-light">
-        <router-link class="nav-link" to="/">節慶活動</router-link>
+        <router-link class="nav-link" to="/activity">節慶活動</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/">品嚐美食</router-link>
+        <router-link class="nav-link" to="/restaurant">品嚐美食</router-link>
       </li>
     </ul>
     <button class="btn-mobile" :class="{'active': toggleMenu}" type="button" @click="btnChange">
