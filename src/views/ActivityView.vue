@@ -1,5 +1,8 @@
 <script setup>
+import { ref } from 'vue'
 import Breadcrumb from '@/components/breadcrumb.vue'
+
+const currentDate = ref(new Date().toISOString().split('T')[0])
 </script>
 
 <template>
@@ -10,8 +13,11 @@ import Breadcrumb from '@/components/breadcrumb.vue'
         <option value="all">全部縣市</option>
       </select>
     </label>
-    <label class="md:col-span-4 md:mb-0 mb-2" for="SearchKey">
-      <input class="h-full md:mb-0 mb-2" type="text" name="SearchKey" id="SearchKey" placeholder="想找有趣的？請輸入關鍵字">
+    <label class="md:col-span-2 md:mb-0 mb-2" for="EventDate">
+      <input class="h-full" type="date" name="EventDate" id="EventDate" :value="currentDate" :min="currentDate">
+    </label>
+    <label class="md:col-span-2 md:mb-0 mb-2" for="SearchKey">
+      <input class="h-full" type="text" name="SearchKey" id="SearchKey" placeholder="想找有趣的？請輸入關鍵字">
     </label>
     <button class="md:col-span-2 btn-search w-full" type="button">
       <img src="@/assets/images/icon/search30.svg" alt="search icon">
