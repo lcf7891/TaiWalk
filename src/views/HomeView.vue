@@ -1,7 +1,32 @@
 <script setup>
+import { ref, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useGetDataStore } from '@/stores/useGetDataStore'
+import { useRandomDataStore } from '@/stores/useRandomDataStore'
 import Carousel from '@/components/Carousel.vue'
 import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
+
+const carouselData = ref([])
+
+const getAPI = useGetDataStore()
+const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
+getAPI.getData('ScenicSpot')
+
+const randomData = useRandomDataStore()
+const { RandomResult } = storeToRefs(randomData)
+
+function getCarouselData() {
+  const imgData = randomData.FilterNoPictures(ScenicSpotData.value)
+  randomData.ExtractRandomData(imgData, 6)
+}
+watchEffect(() => {
+  if (ScenicSpotData.value.length) {
+    getCarouselData()
+    carouselData.value = RandomResult.value
+    console.log('done', carouselData.value)
+  }
+})
 </script>
 
 <template>
@@ -43,7 +68,14 @@ import CardVer from '@/components/CardVertical.vue'
   </header>
   <!-- 輪播 -->
   <article class="md:mb-9 mb-6">
-    <Carousel />
+    <Carousel>
+      <template #default>
+        <swiper-slide v-for="carousel in carouselData" :key="carousel.ScenicSpotID">
+          <img class="swiper-slide-backdrop" :src="carousel.Picture.PictureUrl1" :alt="carousel.ScenicSpotName">
+          <button class="swiper-slide-link" type="button">{{ carousel.City }} | {{ carousel.ScenicSpotName }}</button>
+        </swiper-slide>
+      </template>
+    </Carousel>
   </article>
   
   <!-- 活動 -->
