@@ -1,10 +1,11 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useRandomDataStore = defineStore('randomData', () => {
+  // 產生隨機數
   function randomNum(scope) {
     return Math.floor(Math.random() * scope) + 1
   }
-
+  // 產生指定數組的隨機陣列
   function getRandomNumbers(max, Qty) {
     let randomInt = randomNum(max)
     const tempAry = []
@@ -16,7 +17,7 @@ export const useRandomDataStore = defineStore('randomData', () => {
     }
     return tempAry
   }
-
+  // 篩選有圖片資料
   function FilterNoPictures(originData) {
     const newData = originData.filter(item => {
       if (Object.keys(item.Picture).length > 0) {
@@ -25,7 +26,7 @@ export const useRandomDataStore = defineStore('randomData', () => {
     })
     return newData
   }
-
+  // 從指定數據取出與隨機數陣列對應的資料
   function ExtractRandomData(dataAry, Qty) {
     const numAry = getRandomNumbers(dataAry.length, Qty)
     const filterData = []

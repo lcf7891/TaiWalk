@@ -13,17 +13,18 @@ const carouselData = ref([])
 const getAPI = useGetDataStore()
 const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
 getAPI.getData('ScenicSpot')
+getAPI.getData('Activity')
 
 // 篩選資料
 const randomData = useRandomDataStore()
 
-function getCarouselData() {
-  const imgData = randomData.FilterNoPictures(ScenicSpotData.value)
-  carouselData.value = randomData.ExtractRandomData(imgData, 6)
-}
 watchEffect(() => {
   if (ScenicSpotData.value.length) {
-    getCarouselData()
+    const imgData = randomData.FilterNoPictures(ScenicSpotData.value)
+    carouselData.value = randomData.ExtractRandomData(imgData, 6)
+  }
+  if (ActivityData.value.length) {
+    console.log(ActivityData.value)
   }
 })
 </script>

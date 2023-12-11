@@ -18,8 +18,9 @@ const paginationControl = ref({
   <swiper-container
     :navigation="navigationControl"
     :pagination="paginationControl"
-    loop="true">
-    <slot>
+    loop="true"
+    autoplay-delay="3000">
+    <slot name="default">
     </slot>
     <div slot="container-end">
       <div class="swiper-btn-prev"></div>
