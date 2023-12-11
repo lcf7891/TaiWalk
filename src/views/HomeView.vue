@@ -12,8 +12,8 @@ const carouselData = ref([])
 // 取得資料
 const getAPI = useGetDataStore()
 const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
-getAPI.getData('ScenicSpot')
-getAPI.getData('Activity')
+getAPI.GetData('ScenicSpot')
+getAPI.GetData('Activity')
 
 // 篩選資料
 const randomData = useRandomDataStore()

@@ -37,7 +37,7 @@ export const useGetDataStore = defineStore('getData', () => {
   }
   
   // 取得 API 資料
-  async function getData(isType) {
+  async function GetData(isType) {
     try {
       const response = await axiosTDX.get(isType)
       OrganizeInfo(response.data, isType)
@@ -51,7 +51,7 @@ export const useGetDataStore = defineStore('getData', () => {
     ActivityData,
     RestaurantData,
     OrganizeInfo,
-    getData,
+    GetData,
   }
 })
 
