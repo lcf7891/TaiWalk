@@ -9,22 +9,21 @@ import CardVer from '@/components/CardVertical.vue'
 
 const carouselData = ref([])
 
+// 取得資料
 const getAPI = useGetDataStore()
 const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
 getAPI.getData('ScenicSpot')
 
+// 篩選資料
 const randomData = useRandomDataStore()
-const { RandomResult } = storeToRefs(randomData)
 
 function getCarouselData() {
   const imgData = randomData.FilterNoPictures(ScenicSpotData.value)
-  randomData.ExtractRandomData(imgData, 6)
+  carouselData.value = randomData.ExtractRandomData(imgData, 6)
 }
 watchEffect(() => {
   if (ScenicSpotData.value.length) {
     getCarouselData()
-    carouselData.value = RandomResult.value
-    console.log('done', carouselData.value)
   }
 })
 </script>
@@ -68,7 +67,7 @@ watchEffect(() => {
   </header>
   <!-- 輪播 -->
   <article class="md:mb-9 mb-6">
-    <Carousel>
+    <Carousel v-if="carouselData.length > 0">
       <template #default>
         <swiper-slide v-for="carousel in carouselData" :key="carousel.ScenicSpotID">
           <img class="swiper-slide-backdrop" :src="carousel.Picture.PictureUrl1" :alt="carousel.ScenicSpotName">

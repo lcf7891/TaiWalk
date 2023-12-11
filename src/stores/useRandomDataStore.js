@@ -1,9 +1,6 @@
-import { ref } from 'vue'
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useRandomDataStore = defineStore('randomData', () => {
-  const RandomResult = ref([])
-
   function randomNum(scope) {
     return Math.floor(Math.random() * scope) + 1
   }
@@ -22,7 +19,7 @@ export const useRandomDataStore = defineStore('randomData', () => {
 
   function FilterNoPictures(originData) {
     const newData = originData.filter(item => {
-      if (Object.keys(item.Picture).length) {
+      if (Object.keys(item.Picture).length > 0) {
         return item
       }
     })
@@ -39,11 +36,10 @@ export const useRandomDataStore = defineStore('randomData', () => {
         }
       })
     })
-    RandomResult.value = filterData
+    return filterData
   }
 
   return {
-    RandomResult,
     FilterNoPictures,
     ExtractRandomData,
   }

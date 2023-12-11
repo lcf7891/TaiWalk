@@ -20,12 +20,6 @@ const paginationControl = ref({
     :pagination="paginationControl"
     loop="true">
     <slot>
-      <swiper-slide>
-        <p class="text-4xl font-bold">No Information</p>
-      </swiper-slide>
-      <swiper-slide>
-        <p class="text-4xl font-bold">Second item cycle</p>
-      </swiper-slide>
     </slot>
     <div slot="container-end">
       <div class="swiper-btn-prev"></div>
