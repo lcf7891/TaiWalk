@@ -1,11 +1,11 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useRandomDataStore = defineStore('randomData', () => {
-  // 產生隨機數
+  // 生成隨機數
   function randomNum(scope) {
     return Math.floor(Math.random() * scope) + 1
   }
-  // 產生指定數組的隨機陣列
+  // 生成隨機數陣列
   function getRandomNumbers(max, Qty) {
     let randomInt = randomNum(max)
     const tempAry = []
@@ -17,30 +17,42 @@ export const useRandomDataStore = defineStore('randomData', () => {
     }
     return tempAry
   }
-  // 篩選有圖片資料
-  function FilterNoPictures(originData) {
-    const newData = originData.filter(item => {
-      if (Object.keys(item.Picture).length > 0) {
-        return item
+  // 剔除指定日期資料
+  function RemoveSpecifiedDate(originData) {
+    const nowTime = new Date().toISOString().split('T')[0];
+    const newData = [];
+    originData.forEach((item) => {
+      const endTime = item.EndTime.split('T')[0];
+      if (endTime > nowTime) {
+        newData.push(item);
       }
-    })
+    });
+    return newData;
+  }
+  // 剔除無圖片資料
+  function FilterNoPictures(originData) {
+    const newData = []
+    originData.forEach((item) => {
+      if (Object.hasOwn(item.Picture, 'PictureUrl1')) {
+        newData.push(item)
+      }
+    });
     return newData
   }
-  // 從指定數據取出與隨機數陣列對應的資料
+  // 生成指定數量隨機資料陣列
   function ExtractRandomData(dataAry, Qty) {
     const numAry = getRandomNumbers(dataAry.length, Qty)
-    const filterData = []
-    dataAry.filter((item, idx) => {
-      numAry.forEach(numItem => {
-        if (numItem === idx) {
-          filterData.push(item)
-        }
-      })
-    })
-    return filterData
+    const tempAry = []
+    dataAry.forEach((item, idx) => {
+      if (numAry.includes(idx)) {
+        tempAry.push(item)
+      }
+    });
+    return tempAry
   }
 
   return {
+    RemoveSpecifiedDate,
     FilterNoPictures,
     ExtractRandomData,
   }

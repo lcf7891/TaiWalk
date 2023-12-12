@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useRandomDataStore } from '@/stores/useRandomDataStore'
@@ -8,6 +8,7 @@ import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
 
 const carouselData = ref([])
+const cardHorData = ref([])
 
 // 取得資料
 const getAPI = useGetDataStore()
@@ -18,13 +19,16 @@ getAPI.GetData('Activity')
 // 篩選資料
 const randomData = useRandomDataStore()
 
-watchEffect(() => {
-  if (ScenicSpotData.value.length) {
-    const imgData = randomData.FilterNoPictures(ScenicSpotData.value)
+watch(ScenicSpotData, (newQ) => {
+  if (newQ.length > 0) {
+    const imgData = randomData.FilterNoPictures(newQ)
     carouselData.value = randomData.ExtractRandomData(imgData, 6)
   }
-  if (ActivityData.value.length) {
-    console.log(ActivityData.value)
+})
+watch(ActivityData, (newQ) => {
+  if (newQ.length > 0) {
+    const timeData = randomData.RemoveSpecifiedDate(newQ)
+    cardHorData.value = randomData.ExtractRandomData(timeData, 4)
   }
 })
 </script>
@@ -86,7 +90,7 @@ watchEffect(() => {
     </div>
     <!-- 橫式卡 -->
     <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
-      <CardHor v-for="num in 4" :key="num+1"></CardHor>
+      <CardHor :cardHors="cardHorData"></CardHor>
     </section>
   </article>
   

@@ -1,17 +1,39 @@
+<script setup>
+import { ref } from 'vue'
+
+const props = defineProps(['cardHors'])
+const showData = ref([])
+
+function timeFormat(time) {
+  return time.split('T')[0].split('-').join('/')
+}
+
+function ReorganizeData() {
+  showData.value = props.cardHors.map(item => {
+    item.StartTime = timeFormat(item.StartTime)
+    item.EndTime = timeFormat(item.EndTime)
+    return item
+  })
+}
+ReorganizeData()
+console.log(showData.value)
+</script>
+
 <template>
-  <section class="card-hor">
-    <img src="https://fakeimg.pl/300/" alt="preview image" class="card-hor-img">
+  <section class="card-hor" v-for="item in showData" :key="item.ActivityID">
+    <img :src="item.Picture.PictureUrl1" :alt="item.ActivityName" class="card-hor-img" v-if="Object.hasOwn(item.Picture, 'PictureUrl1')">
+    <img src="@/assets/images/NoImage-1100x400.svg" alt="No Image" class="card-hor-img" v-else>
     <div class="card-hor-body">
-      <span class="card-subtitle">2021/10/30 - 2021/11/13</span>
+      <span class="card-subtitle">{{ item.StartTime }} - {{ item.EndTime }}</span>
       <h4 class="card-title">
-        活動名稱最多可放二十八個字，超過時第二十八字要改成刪節
+        {{ item.ActivityName }}
       </h4>
       <div class="card-footer">
         <p class="card-text">
           <img class="md:block hidden mr-1"
                 src="@/assets/images/icon/spot16.svg"
                 alt="position spot">
-          城市名稱
+          {{ item.City }}
         </p>
         <button class="card-btn card-btn-hor btn-arrow" type="button">詳細介紹</button>
       </div>

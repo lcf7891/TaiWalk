@@ -6,7 +6,7 @@
     @apply md:w-40 w-20 object-cover md:rounded-l-xl rounded-l-lg duration-300 ease-in-out hover:scale-[1.1] z-10;
   }
   .card-hor-body {
-    @apply relative bg-info border border-light md:rounded-r-xl rounded-r-lg md:py-4 md:px-7 px-4;
+    @apply relative w-full bg-info border border-light md:rounded-r-xl rounded-r-lg md:py-4 md:px-7 px-4;
   }
   .card-subtitle {
     @apply text-primary md:text-base text-xs mb-1;
