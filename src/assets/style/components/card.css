@@ -3,7 +3,7 @@
     @apply inline-flex;
   }
   .card-hor-img {
-    @apply md:w-40 w-20 object-cover md:rounded-l-xl rounded-l-lg duration-300 ease-in-out hover:scale-[1.1] z-10;
+    @apply md:w-40 w-20 object-cover md:rounded-l-xl rounded-l-lg duration-300 ease-in-out hover:scale-[1.1] md:hover:rounded-xl hover:rounded-lg z-10;
   }
   .card-hor-body {
     @apply relative w-full bg-info border border-light md:rounded-r-xl rounded-r-lg md:py-4 md:px-7 px-4;
@@ -27,7 +27,7 @@
     @apply md:opacity-100 md:before:static;
   }
   .card-ver {
-    @apply relative;
+    @apply rounded-[20px] hover:shadow-md hover:bg-info;
   }
   .card-ver-img {
     @apply w-full md:h-52 h-40 object-cover rounded-[20px] duration-300 ease-in-out hover:scale-[1.1] z-10 md:mb-3 mb-2;

@@ -8,7 +8,8 @@ import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
 
 const carouselData = ref([])
-const cardHorData = ref([])
+const horCardData = ref([])
+const spotVerCardData = ref([])
 
 // 取得資料
 const getAPI = useGetDataStore()
@@ -16,20 +17,21 @@ const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
 getAPI.GetData('ScenicSpot')
 getAPI.GetData('Activity')
 
-// 篩選資料
-const randomData = useRandomDataStore()
+// 生成隨機資料
+const randomDataStore = useRandomDataStore()
 
 watch(ScenicSpotData, (newQ) => {
   if (newQ.length > 0) {
-    const imgData = randomData.FilterNoPictures(newQ)
-    carouselData.value = randomData.ExtractRandomData(imgData, 6)
+    const imgData = randomDataStore.FilterNoPictures(newQ)
+    carouselData.value = randomDataStore.ExtractRandomData(imgData, 6)
+    spotVerCardData.value = randomDataStore.ExtractRandomData(imgData, 4)
   }
 })
 watch(ActivityData, (newQ) => {
   if (newQ.length > 0) {
-    const timeData = randomData.RemoveSpecifiedDate(newQ)
-    const randomAry = randomData.ExtractRandomData(timeData, 4)
-    cardHorData.value = randomData.TimeFormat(randomAry)
+    const timeData = randomDataStore.RemoveSpecifiedDate(newQ)
+    const randomAry = randomDataStore.ExtractRandomData(timeData, 4)
+    horCardData.value = randomDataStore.TimeFormat(randomAry)
   }
 })
 </script>
@@ -91,7 +93,7 @@ watch(ActivityData, (newQ) => {
     </div>
     <!-- 橫式卡 -->
     <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
-      <CardHor :cardHors="cardHorData"></CardHor>
+      <CardHor :cardHors="horCardData"></CardHor>
     </section>
   </article>
   
@@ -103,7 +105,7 @@ watch(ActivityData, (newQ) => {
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer v-for="num in 4" :key="num+2"></CardVer>
+      <CardVer :cardVers="spotVerCardData"></CardVer>
     </section>
   </article>
 
