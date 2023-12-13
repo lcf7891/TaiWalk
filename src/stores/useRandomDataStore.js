@@ -29,6 +29,15 @@ export const useRandomDataStore = defineStore('randomData', () => {
     });
     return newData;
   }
+  // 修改日期格式
+  function TimeFormat(originData) {
+    const tempData = originData
+    originData.forEach((item, idx) => {
+      tempData[idx].StartTime = item.StartTime.split('T')[0].split('-').join('/')
+      tempData[idx].EndTime = item.EndTime.split('T')[0].split('-').join('/')
+    })
+    return tempData
+  }
   // 剔除無圖片資料
   function FilterNoPictures(originData) {
     const newData = []
@@ -53,6 +62,7 @@ export const useRandomDataStore = defineStore('randomData', () => {
 
   return {
     RemoveSpecifiedDate,
+    TimeFormat,
     FilterNoPictures,
     ExtractRandomData,
   }

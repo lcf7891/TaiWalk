@@ -28,7 +28,8 @@ watch(ScenicSpotData, (newQ) => {
 watch(ActivityData, (newQ) => {
   if (newQ.length > 0) {
     const timeData = randomData.RemoveSpecifiedDate(newQ)
-    cardHorData.value = randomData.ExtractRandomData(timeData, 4)
+    const randomAry = randomData.ExtractRandomData(timeData, 4)
+    cardHorData.value = randomData.TimeFormat(randomAry)
   }
 })
 </script>
