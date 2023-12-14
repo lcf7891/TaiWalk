@@ -12,10 +12,12 @@ export const useGetDataStore = defineStore('getData', () => {
   const ActivityData = ref([])  // 活動資料
   const RestaurantData = ref([])  // 餐飲資料
 
-  // 排除沒有 Address 的資料後，將沒有 City 的資料取出，用 Address 建立 City
+  // 整理資料
   function OrganizeInfo(oldArray, isType) {
+    // 用 Address 建立 City
     const newArray = oldArray.map((item) => {
       const tempItem = item
+      // 排除沒有 Address 的資料後，將沒有 City 的資料取出
       if (item.Address) {
         if (!item.City) { // 找出缺少 City 資訊的物件
           // 建立 City 資訊
@@ -27,10 +29,12 @@ export const useGetDataStore = defineStore('getData', () => {
       }
       return tempItem
     })
+    // 建立一致的 ID 與 Name
     oldArray.forEach((item, idx) => {
       newArray[idx].ID = item.ScenicSpotID || item.ActivityID || item.RestaurantID;
       newArray[idx].Name = item.ScenicSpotName || item.ActivityName || item.RestaurantName;
     });
+    // 儲存整理後的資料
     if (isType === 'ScenicSpot') {
       ScenicSpotData.value = newArray
     } else if (isType === 'Activity') {
