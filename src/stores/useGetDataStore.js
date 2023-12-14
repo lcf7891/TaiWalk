@@ -26,10 +26,10 @@ export const useGetDataStore = defineStore('getData', () => {
           newArray[idx].City = item.Address // 從 Address 取得 City 資訊
             .split('') // 字串分割成陣列
             .slice(0, 3) // 選擇要留下的片段
-            .reduce((acc, cur) => acc + cur); // 重新組成字串
+            .reduce((acc, cur) => acc + cur) // 重新組成字串
         }
       }
-    });
+    })
     // 儲存整理後的資料
     if (isType === 'ScenicSpot') {
       ScenicSpotData.value = newArray
