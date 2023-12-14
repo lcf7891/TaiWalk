@@ -10,12 +10,14 @@ import CardVer from '@/components/CardVertical.vue'
 const carouselData = ref([])
 const horCardData = ref([])
 const spotVerCardData = ref([])
+const cateringCardData = ref([])
 
 // 取得資料
 const getAPI = useGetDataStore()
 const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
 getAPI.GetData('ScenicSpot')
 getAPI.GetData('Activity')
+getAPI.GetData('Restaurant')
 
 // 生成隨機資料
 const randomDataStore = useRandomDataStore()
@@ -32,6 +34,11 @@ watch(ActivityData, (newQ) => {
     const timeData = randomDataStore.RemoveSpecifiedDate(newQ)
     const randomAry = randomDataStore.ExtractRandomData(timeData, 4)
     horCardData.value = randomDataStore.TimeFormat(randomAry)
+  }
+})
+watch(RestaurantData, (newQ) => {
+  if (newQ.length > 0) {
+    cateringCardData.value = randomDataStore.ExtractRandomData(newQ, 4)
   }
 })
 </script>
@@ -117,7 +124,7 @@ watch(ActivityData, (newQ) => {
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer v-for="num in 4" :key="num+2"></CardVer>
+      <CardVer :cardVers="cateringCardData"></CardVer>
     </section>
   </article>
 </template>

@@ -27,6 +27,10 @@ export const useGetDataStore = defineStore('getData', () => {
       }
       return tempItem
     })
+    oldArray.forEach((item, idx) => {
+      newArray[idx].ID = item.ScenicSpotID || item.ActivityID || item.RestaurantID;
+      newArray[idx].Name = item.ScenicSpotName || item.ActivityName || item.RestaurantName;
+    });
     if (isType === 'ScenicSpot') {
       ScenicSpotData.value = newArray
     } else if (isType === 'Activity') {
