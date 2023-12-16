@@ -4,7 +4,7 @@ const props = defineProps(['cardHors'])
 
 <template>
   <section class="card-hor" v-for="item in props.cardHors" :key="item.ActivityID">
-    <img :src="item.Picture.PictureUrl1" :alt="item.ActivityName" class="card-hor-img" v-if="Object.hasOwn(item.Picture, 'PictureUrl1')">
+    <img :src="item.Picture.PictureUrl1" :alt="item.ActivityName" class="card-hor-img" v-if="item.showImg">
     <img src="@/assets/images/NoImage-1100x400.svg" alt="No Image" class="card-hor-img" v-else>
     <div class="card-hor-body">
       <span class="card-subtitle">{{ item.StartTime }} - {{ item.EndTime }}</span>

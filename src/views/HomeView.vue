@@ -96,7 +96,7 @@ watch(RestaurantData, (newQ) => {
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">近期活動</h3>
-      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/">查看更多活動</router-link>
+      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/activity">查看更多活動</router-link>
     </div>
     <!-- 橫式卡 -->
     <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
@@ -108,7 +108,7 @@ watch(RestaurantData, (newQ) => {
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">熱門景點</h3>
-      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/">查看更多景點</router-link>
+      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/scenicSpot">查看更多景點</router-link>
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
@@ -120,7 +120,7 @@ watch(RestaurantData, (newQ) => {
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">味蕾狂熱美食</h3>
-      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/">查看更多美食</router-link>
+      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/restaurant">查看更多美食</router-link>
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">

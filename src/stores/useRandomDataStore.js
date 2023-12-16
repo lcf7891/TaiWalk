@@ -42,7 +42,7 @@ export const useRandomDataStore = defineStore('randomData', () => {
   function FilterNoPictures(originData) {
     const newData = []
     originData.forEach((item) => {
-      if (Object.hasOwn(item.Picture, 'PictureUrl1')) {
+      if (item.showImg) {
         newData.push(item)
       }
     });

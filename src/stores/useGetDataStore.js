@@ -29,6 +29,17 @@ export const useGetDataStore = defineStore('getData', () => {
             .reduce((acc, cur) => acc + cur) // 重新組成字串
         }
       }
+      // 篩選圖片格式
+      if (Object.hasOwn(item.Picture, 'PictureUrl1')) {
+        const imgUrl = item.Picture.PictureUrl1.split('.').reverse()[0]
+        const imgFormat = /(jpe?g|png|svg)/
+        if (imgFormat.test(imgUrl)) {
+          console.log(item.Picture.PictureUrl1)
+          newArray[idx].showImg = true
+        } else {
+          newArray[idx].showImg = false
+        }
+      }
     })
     // 儲存整理後的資料
     if (isType === 'ScenicSpot') {
