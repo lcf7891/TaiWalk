@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { register } from 'swiper/element/bundle';
+import { ref } from 'vue'
+import { register } from 'swiper/element/bundle'
 
 register()
 

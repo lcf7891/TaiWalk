@@ -1,5 +1,5 @@
 <script setup>
-import Breadcrumb from '@/components/breadcrumb.vue'
+import Breadcrumb from '@/components/BreadCrumb.vue'
 </script>
 
 <template>
@@ -22,27 +22,27 @@ import Breadcrumb from '@/components/breadcrumb.vue'
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門分類</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-1.svg" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/Theme-bg3-1.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">地方特產</span>
       </button>
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-2.svg" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/Theme-bg3-2.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">中式美食</span>
       </button>
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-3.svg" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/Theme-bg3-3.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">甜點冰品</span>
       </button>
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-4.svg" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/Theme-bg3-4.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">異國料理</span>
       </button>
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-5.svg" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/Theme-bg3-5.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">伴手禮</span>
       </button>
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/theme-bg3-6.svg" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" src="@/assets/images/Theme-bg3-6.svg" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">素食</span>
       </button>
     </div>

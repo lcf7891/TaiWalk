@@ -4,11 +4,11 @@
 
 /* Customize */
 /* base */
-@import './base/fonts.css';
-@import './base/forms.css';
+@import './base/fonts';
+@import './base/forms';
 
 /* components */
-@import './components/buttons.css';
-@import './components/navbar.css';
-@import './components/card.css';
-@import './components/swiper.css';
+@import './components/buttons';
+@import './components/navbar';
+@import './components/card';
+@import './components/swiper';
