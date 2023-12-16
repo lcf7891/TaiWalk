@@ -34,7 +34,6 @@ export const useGetDataStore = defineStore('getData', () => {
         const imgUrl = item.Picture.PictureUrl1.split('.').reverse()[0]
         const imgFormat = /(jpe?g|png|svg)/
         if (imgFormat.test(imgUrl)) {
-          console.log(item.Picture.PictureUrl1)
           newArray[idx].showImg = true
         } else {
           newArray[idx].showImg = false
