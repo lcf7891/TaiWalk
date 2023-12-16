@@ -55,7 +55,7 @@ const { GetImgUrl } = useGetDataStore()
   <article class="md:mb-40 mb-15">
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門主題</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">
-      <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button" v-for="theme, idx in themeList" :key="theme.content">
+      <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button" v-for="theme in themeList" :key="theme.content">
         <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" :src="GetImgUrl(theme.backdrop)" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           {{ theme.content }}
