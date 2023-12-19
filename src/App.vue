@@ -1,7 +1,14 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { useGetDataStore } from '@/stores/useGetDataStore'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
+
+// 取得資料
+const getAPI = useGetDataStore()
+getAPI.GetData('ScenicSpot')
+getAPI.GetData('Activity')
+getAPI.GetData('Restaurant')
 </script>
 
 <template>

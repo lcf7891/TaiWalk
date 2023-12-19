@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const toggleMenu = ref(false)
 
@@ -10,24 +11,24 @@ function btnChange() {
 
 <template>
   <nav class="navbar">
-    <router-link to="/">
+    <RouterLink to="/">
       <img class="md:block hidden" src="@/assets/images/icon/Logo-desktop.svg" alt="desktop logo">
       <img class="md:hidden block" src="@/assets/images/icon/Logo-mobile.svg" alt="mobile logo">
-    </router-link>
+    </RouterLink>
     <ul class="nav" :class="{'active': toggleMenu}">
       <li class="nav-brand">
-        <router-link to="/">
+        <RouterLink to="/">
           <img src="@/assets/images/icon/Logo-mobile.svg" alt="mobile logo">
-        </router-link>
+        </RouterLink>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/scenicSpot">探索景點</router-link>
+        <RouterLink class="nav-link" to="/scenicSpot">探索景點</RouterLink>
       </li>
       <li class="nav-item md:border-0 border-y border-light">
-        <router-link class="nav-link" to="/activity">節慶活動</router-link>
+        <RouterLink class="nav-link" to="/activity">節慶活動</RouterLink>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/restaurant">品嚐美食</router-link>
+        <RouterLink class="nav-link" to="/restaurant">品嚐美食</RouterLink>
       </li>
     </ul>
     <button class="btn-mobile" :class="{'active': toggleMenu}" type="button" @click="btnChange">

@@ -1,27 +1,26 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import { RouterLink, useRouter } from 'vue-router'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useRandomDataStore } from '@/stores/useRandomDataStore'
+import { useSearchStore } from '@/stores/useSearchStore'
 import Carousel from '@/components/Carousel.vue'
 import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
 
-const carouselData = ref([])
-const horCardData = ref([])
-const spotVerCardData = ref([])
-const cateringCardData = ref([])
-
-// 取得資料
-const getAPI = useGetDataStore()
-const { ScenicSpotData, ActivityData, RestaurantData} = storeToRefs(getAPI)
-getAPI.GetData('ScenicSpot')
-getAPI.GetData('Activity')
-getAPI.GetData('Restaurant')
+// 解構資料
+const {
+  ScenicSpotData,
+  ActivityData,
+  RestaurantData
+} = storeToRefs(useGetDataStore())
 
 // 生成隨機資料
 const randomDataStore = useRandomDataStore()
 
+const carouselData = ref([])
+const horCardData = ref([])
 watch(ScenicSpotData, (newQ) => {
   if (newQ.length > 0) {
     const imgData = randomDataStore.FilterNoPictures(newQ)
@@ -29,6 +28,8 @@ watch(ScenicSpotData, (newQ) => {
     spotVerCardData.value = randomDataStore.ExtractRandomData(imgData, 4)
   }
 })
+
+const spotVerCardData = ref([])
 watch(ActivityData, (newQ) => {
   if (newQ.length > 0) {
     const timeData = randomDataStore.RemoveSpecifiedDate(newQ)
@@ -36,11 +37,33 @@ watch(ActivityData, (newQ) => {
     horCardData.value = randomDataStore.TimeFormat(randomAry)
   }
 })
+
+const cateringCardData = ref([])
 watch(RestaurantData, (newQ) => {
   if (newQ.length > 0) {
     cateringCardData.value = randomDataStore.ExtractRandomData(newQ, 4)
   }
 })
+
+// 使用者查詢資訊
+const searchStore = useSearchStore()
+const router = useRouter()
+const userForm = ref({
+  select: 'ScenicSpot',
+  keyWord: '',
+})
+function formBtn() {
+  const keyAry = [...new Set(userForm.value.keyWord.split(' '))]
+  const option = userForm.value.select
+  if (option === 'ScenicSpot') {
+    searchStore.SearchInfo(ScenicSpotData.value, keyAry)
+  } else if (option === 'Activity') {
+    searchStore.SearchInfo(ActivityData.value, keyAry)
+  } else if (option === 'Restaurant') {
+    searchStore.SearchInfo(RestaurantData.value, keyAry)
+  }
+  console.log('router:', router)
+}
 </script>
 
 <template>
@@ -63,7 +86,7 @@ watch(RestaurantData, (newQ) => {
       </div>
       <form class="col-span-2 md:flex md:flex-col md:justify-end">
         <label for="SearchOptions">
-          <select class="mb-2" name="SearchOptions" id="SearchOptions">
+          <select class="mb-2" name="SearchOptions" id="SearchOptions" v-model="userForm.select">
             <option value="ScenicSpot">探索景點</option>
             <option value="Activity">節慶活動</option>
             <option value="Restaurant">品嚐美食</option>
@@ -71,9 +94,10 @@ watch(RestaurantData, (newQ) => {
         </label>
         <label for="SearchKey">
           <input class="mb-2" type="text" name="SearchKey"
-                  id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字">
+                  id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字"
+                  v-model="userForm.keyWord">
         </label>
-        <button class="btn-search w-full" type="button">
+        <button class="btn-search w-full" type="button" @click.prevent="formBtn">
           <img src="@/assets/images/icon/search30.svg" alt="search icon">
           搜尋
         </button>
@@ -96,7 +120,7 @@ watch(RestaurantData, (newQ) => {
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">近期活動</h3>
-      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/activity">查看更多活動</router-link>
+      <RouterLink class="btn-arrow text-tertiary font-medium mr-2" to="/activity">查看更多活動</RouterLink>
     </div>
     <!-- 橫式卡 -->
     <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
@@ -108,7 +132,7 @@ watch(RestaurantData, (newQ) => {
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">熱門景點</h3>
-      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/scenicSpot">查看更多景點</router-link>
+      <RouterLink class="btn-arrow text-tertiary font-medium mr-2" to="/scenicSpot">查看更多景點</RouterLink>
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
@@ -120,7 +144,7 @@ watch(RestaurantData, (newQ) => {
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">味蕾狂熱美食</h3>
-      <router-link class="btn-arrow text-tertiary font-medium mr-2" to="/restaurant">查看更多美食</router-link>
+      <RouterLink class="btn-arrow text-tertiary font-medium mr-2" to="/restaurant">查看更多美食</RouterLink>
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
