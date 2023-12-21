@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useZipCodeStore } from '@/stores/useZipCodeStore'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
 
@@ -35,8 +37,9 @@ const themeList = ref([
   },
 ])
 const { GetImgUrl } = useGetDataStore()
-
-
+// 渲染縣市選項
+const zipCode = useZipCodeStore()
+const { cityName } = storeToRefs(zipCode)
 </script>
 
 <template>
@@ -45,6 +48,9 @@ const { GetImgUrl } = useGetDataStore()
     <label class="md:col-span-2 md:mb-0 mb-2" for="SelectCounty">
       <select class="h-full" name="SelectCounty" id="SelectCounty">
         <option value="all">全部縣市</option>
+        <option :value="city" v-for="city in cityName" :key="city">
+          {{ city }}
+        </option>
       </select>
     </label>
     <label class="md:col-span-4 md:mb-0 mb-2" for="SearchKey">

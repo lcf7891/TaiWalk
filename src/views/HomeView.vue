@@ -9,51 +9,58 @@ import Carousel from '@/components/Carousel.vue'
 import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
 
-// 解構資料
+// 取得資料
+const getAPI = useGetDataStore()
+getAPI.GetData('ScenicSpot')
+getAPI.GetData('Activity')
+getAPI.GetData('Restaurant')
 const {
   ScenicSpotData,
   ActivityData,
   RestaurantData
-} = storeToRefs(useGetDataStore())
+} = storeToRefs(getAPI)
 
 // 生成隨機資料
-const randomDataStore = useRandomDataStore()
+const randomData = useRandomDataStore()
 
 const carouselData = ref([])
 const horCardData = ref([])
 watch(ScenicSpotData, (newQ) => {
   if (newQ.length > 0) {
-    const imgData = randomDataStore.FilterNoPictures(newQ)
-    carouselData.value = randomDataStore.ExtractRandomData(imgData, 6)
-    spotVerCardData.value = randomDataStore.ExtractRandomData(imgData, 4)
+    const imgData = randomData.FilterNoPictures(newQ)
+    carouselData.value = randomData.ExtractRandomData(imgData, 6)
+    spotVerCardData.value = randomData.ExtractRandomData(imgData, 4)
   }
 })
 
 const spotVerCardData = ref([])
 watch(ActivityData, (newQ) => {
   if (newQ.length > 0) {
-    const timeData = randomDataStore.RemoveSpecifiedDate(newQ)
-    const randomAry = randomDataStore.ExtractRandomData(timeData, 4)
-    horCardData.value = randomDataStore.TimeFormat(randomAry)
+    const timeData = randomData.RemoveSpecifiedDate(newQ)
+    const randomAry = randomData.ExtractRandomData(timeData, 4)
+    horCardData.value = randomData.TimeFormat(randomAry)
   }
 })
 
 const cateringCardData = ref([])
 watch(RestaurantData, (newQ) => {
   if (newQ.length > 0) {
-    cateringCardData.value = randomDataStore.ExtractRandomData(newQ, 4)
+    cateringCardData.value = randomData.ExtractRandomData(newQ, 4)
   }
 })
 
 // 使用者查詢資訊
 const searchStore = useSearchStore()
 const router = useRouter()
+// 使用者輸入資料
 const userForm = ref({
   select: 'ScenicSpot',
   keyWord: '',
 })
 function formBtn() {
+  // 處理關鍵字
   const keyAry = [...new Set(userForm.value.keyWord.split(' '))]
+  // 依照選擇執行搜尋類別
   const option = userForm.value.select
   if (option === 'ScenicSpot') {
     searchStore.SearchInfo(ScenicSpotData.value, keyAry)
