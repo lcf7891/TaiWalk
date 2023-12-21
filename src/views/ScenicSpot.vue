@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
 
+// 動態圖片路徑
 const themeList = ref([
   {
     content: '自然風景類',
@@ -34,6 +35,8 @@ const themeList = ref([
   },
 ])
 const { GetImgUrl } = useGetDataStore()
+
+
 </script>
 
 <template>
