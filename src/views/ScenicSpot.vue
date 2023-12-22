@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useZipCodeStore } from '@/stores/useZipCodeStore'
 import { useGetDataStore } from '@/stores/useGetDataStore'
+import { useSearchStore } from '@/stores/useSearchStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
 
 // 動態圖片路徑
@@ -40,6 +41,9 @@ const { GetImgUrl } = useGetDataStore()
 // 渲染縣市選項
 const zipCode = useZipCodeStore()
 const { cityName } = storeToRefs(zipCode)
+// 載入搜尋結果
+const searchData = useSearchStore()
+const { SearchResult } = storeToRefs(searchData)
 </script>
 
 <template>
@@ -61,7 +65,8 @@ const { cityName } = storeToRefs(zipCode)
       搜尋
     </button>
   </form>
-  <article class="md:mb-40 mb-15">
+  <article v-if="SearchResult.length > 0">{{ SearchResult.length }}</article>
+  <article class="md:mb-40 mb-15" v-else>
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門主題</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button" v-for="theme in themeList" :key="theme.content">

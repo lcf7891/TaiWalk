@@ -1,29 +1,55 @@
 import { ref } from 'vue'
-import { defineStore, acceptHMRUpdate } from 'pinia'
+import { defineStore, acceptHMRUpdate, storeToRefs } from 'pinia'
+import { useGetDataStore } from './useGetDataStore'
 
 export const useSearchStore = defineStore('searchData', () => {
-  const searchResult = ref([])
-  // 搜尋資訊
-  function SearchInfo(data, keys) {
-    const tempData = []
-    data.forEach(item => {
-      keys.forEach(key => {
-        // 比對 address, city, name 與關鍵字相符的為 true
-        const address = String(item.Address).match(key)
-        const city = String(item.City).match(key)
-        const name = String(item.Name).match(key)
-        // 比對項目為 true 放入陣列
+  // 載入初始資料
+  const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(useGetDataStore())
+
+  const SearchResult = ref([])
+  // 清除資料
+  function ResetData() {
+    while (SearchResult.value.length) {
+      SearchResult.value.pop()
+    }
+  }
+  // 篩選資料
+  function SearchData(data, keys) {
+    const tempAry = []
+    data.forEach((item) => {
+      keys.forEach((key) => {
+        // 篩選地址
+        const address = new String(item.Address).includes(key)
+        // 篩選城市
+        const city = new String(item.City).includes(key)
+        // 篩選名稱
+        const name = new String(item.Name).includes(key)
         if (address || city || name) {
-          tempData.push(item)
+          tempAry.push(item)
         }
       })
     })
-    searchResult.value = tempData
-    console.log(searchResult.value)
+    SearchResult.value = tempAry
   }
-  
+  // 判斷搜尋的資料
+  function SearchInfo(user) {
+    // 處理關鍵字
+    const keyAry = String(user.keyWord).split(' ')
+    // 依照選擇執行搜尋類別
+    const option = user.select
+    if (option === 'scenicSpot') {
+      SearchData(ScenicSpotData.value, keyAry)
+    } else if (option === 'activity') {
+      SearchData(ActivityData.value, keyAry)
+    } else if (option === 'restaurant') {
+      SearchData(RestaurantData.value, keyAry)
+    }
+  }
+
   return {
-    searchResult,
+    SearchResult,
+    ResetData,
+    SearchData,
     SearchInfo,
   }
 })

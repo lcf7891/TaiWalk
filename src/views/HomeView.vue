@@ -11,18 +11,15 @@ import CardVer from '@/components/CardVertical.vue'
 
 // 取得資料
 const getAPI = useGetDataStore()
+const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(getAPI)
 getAPI.GetData('ScenicSpot')
 getAPI.GetData('Activity')
 getAPI.GetData('Restaurant')
-const {
-  ScenicSpotData,
-  ActivityData,
-  RestaurantData
-} = storeToRefs(getAPI)
 
 // 生成隨機資料
 const randomData = useRandomDataStore()
 
+// 監聽景點資料
 const carouselData = ref([])
 const horCardData = ref([])
 watch(ScenicSpotData, (newQ) => {
@@ -33,6 +30,7 @@ watch(ScenicSpotData, (newQ) => {
   }
 })
 
+// 監聽活動資料
 const spotVerCardData = ref([])
 watch(ActivityData, (newQ) => {
   if (newQ.length > 0) {
@@ -42,6 +40,7 @@ watch(ActivityData, (newQ) => {
   }
 })
 
+// 監聽餐飲資料
 const cateringCardData = ref([])
 watch(RestaurantData, (newQ) => {
   if (newQ.length > 0) {
@@ -50,26 +49,18 @@ watch(RestaurantData, (newQ) => {
 })
 
 // 使用者查詢資訊
-const searchStore = useSearchStore()
 const router = useRouter()
+const SearchData = useSearchStore()
 // 使用者輸入資料
 const userForm = ref({
-  select: 'ScenicSpot',
+  select: 'scenicSpot',
   keyWord: '',
 })
-function formBtn() {
-  // 處理關鍵字
-  const keyAry = [...new Set(userForm.value.keyWord.split(' '))]
-  // 依照選擇執行搜尋類別
-  const option = userForm.value.select
-  if (option === 'ScenicSpot') {
-    searchStore.SearchInfo(ScenicSpotData.value, keyAry)
-  } else if (option === 'Activity') {
-    searchStore.SearchInfo(ActivityData.value, keyAry)
-  } else if (option === 'Restaurant') {
-    searchStore.SearchInfo(RestaurantData.value, keyAry)
-  }
-  console.log('router:', router)
+function searchBtn() {
+  // 搜尋資料
+  SearchData.SearchInfo(userForm.value)
+  // 依選擇換頁
+  router.push(`/${userForm.value.select}`)
 }
 </script>
 
@@ -94,17 +85,15 @@ function formBtn() {
       <form class="col-span-2 md:flex md:flex-col md:justify-end">
         <label for="SearchOptions">
           <select class="mb-2" name="SearchOptions" id="SearchOptions" v-model="userForm.select">
-            <option value="ScenicSpot">探索景點</option>
-            <option value="Activity">節慶活動</option>
-            <option value="Restaurant">品嚐美食</option>
+            <option value="scenicSpot">探索景點</option>
+            <option value="activity">節慶活動</option>
+            <option value="restaurant">品嚐美食</option>
           </select>
         </label>
         <label for="SearchKey">
-          <input class="mb-2" type="text" name="SearchKey"
-                  id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字"
-                  v-model="userForm.keyWord">
+          <input class="mb-2" type="text" name="SearchKey" id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字" v-model="userForm.keyWord">
         </label>
-        <button class="btn-search w-full" type="button" @click.prevent="formBtn">
+        <button class="btn-search w-full" type="button" @click.prevent="searchBtn">
           <img src="@/assets/images/icon/search30.svg" alt="search icon">
           搜尋
         </button>

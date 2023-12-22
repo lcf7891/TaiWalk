@@ -1,12 +1,14 @@
 <script setup>
-import { RouterView, useRouter } from 'vue-router'
+import { RouterView, useRoute, useRouter } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 
-// 重新整理自動導向首頁
-const router = useRouter()
-if (router.path !== '/') {
-  router.replace('/')
+const route =useRoute()
+const router =useRouter()
+console.log(route)
+console.log(router)
+if (route.name !== 'home') {
+  router.replace({ path: '/' })
 }
 </script>
 
