@@ -5,8 +5,7 @@ import Footer from '@/components/Footer.vue'
 
 const route =useRoute()
 const router =useRouter()
-console.log(route)
-console.log(router)
+// 重新整理導向首頁
 if (route.name !== 'home') {
   router.replace({ path: '/' })
 }

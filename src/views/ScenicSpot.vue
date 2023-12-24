@@ -5,6 +5,8 @@ import { useZipCodeStore } from '@/stores/useZipCodeStore'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useSearchStore } from '@/stores/useSearchStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
+import Card from '@/components/CardVertical.vue'
+import PageNav from '@/components/pageNavigation.vue'
 
 // 動態圖片路徑
 const themeList = ref([
@@ -65,7 +67,18 @@ const { SearchResult } = storeToRefs(searchData)
       搜尋
     </button>
   </form>
-  <article v-if="SearchResult.length > 0">{{ SearchResult.length }}</article>
+  <PageNav />
+  <article class="md:mb-40 mb-15" v-if="SearchResult.length > 0">
+    <div class="md:mb-3 mb-2">
+      <h2 class="inline-block font-light md:text-4xl text-2xl pr-2">搜尋結果</h2>
+      <p class="inline-block md:text-lg text-sm text-primary">
+        共有<span class="text-tag px-1">{{ SearchResult.length }}</span>筆
+      </p>
+    </div>
+    <div class="grid md:grid-cols-4 grid-cols-1 md:gap-7">
+      <Card :cardVers="SearchResult" />
+    </div>
+  </article>
   <article class="md:mb-40 mb-15" v-else>
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門主題</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">

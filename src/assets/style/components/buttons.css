@@ -20,7 +20,7 @@
 
   /* hover */
   .btn-arrow {
-    @apply after:inline-block after:border-r-2 after:border-b-2 after:border-current after:rotate-[-45deg] after:p-1 after:ml-1 hover:after:animate-wander;
+    @apply after:inline-block after:border-r-2 after:border-b-2 after:border-current after:-rotate-45 after:p-1 after:ml-1 hover:after:animate-wander;
   }
 
   /* tag */
