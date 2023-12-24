@@ -1,11 +1,11 @@
 @layer components {
-  .page-nav {
+  .pagination {
     @apply flex justify-center items-center;
   }
-  .page-nav li {
+  .page-item {
     @apply flex justify-center items-center w-8 h-8 text-quaternary border border-light rounded cursor-pointer hover:border-quaternary;
   }
-  .page-nav li.active {
+  .page-item.active {
     @apply border-quaternary;
   }
   .page-arrow {
