@@ -5,6 +5,7 @@ import { useZipCodeStore } from '@/stores/useZipCodeStore'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
 
+const getAPI = useGetDataStore()
 // 動態圖片路徑
 const themeList = ref([
   {
@@ -32,7 +33,9 @@ const themeList = ref([
     backdrop: 'Theme-bg2-6.svg'
   },
 ])
-const { GetImgUrl } = useGetDataStore()
+function imgUrl(url) {
+  return getAPI.GetImgUrl(url)
+}
 // 取得現在日期
 const currentDate = ref(new Date().toISOString().split('T')[0])
 // 渲染縣市選項
@@ -62,11 +65,11 @@ const { cityName } = storeToRefs(zipCode)
       搜尋
     </button>
   </form>
-  <article class="md:mb-40 mb-15">
+  <article class="md:mb-20 mb-15">
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門主題</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">
       <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button" v-for="theme in themeList" :key="theme.content">
-        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" :src="GetImgUrl(theme.backdrop)" alt="Button background image">
+        <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" :src="imgUrl(theme.backdrop)" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           {{ theme.content }}
         </span>
