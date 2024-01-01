@@ -5,6 +5,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useRandomDataStore } from '@/stores/useRandomDataStore'
 import { useSearchStore } from '@/stores/useSearchStore'
+import { usePageChangeStore } from '@/stores/usePageChangeStore'
 import Carousel from '@/components/Carousel.vue'
 import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
@@ -62,6 +63,14 @@ function searchBtn() {
   // 依選擇換頁
   router.push(`/${userForm.value.select}`)
 }
+
+const pageState = usePageChangeStore()
+function toDetail(item) {
+  pageState.DetermineStatus(item)
+  router.push({
+    path: '/detailed'
+  })
+}
 </script>
 
 <template>
@@ -102,14 +111,7 @@ function searchBtn() {
   </header>
   <!-- 輪播 -->
   <article class="md:mb-9 mb-6">
-    <Carousel v-if="carouselData.length > 0">
-      <template #default>
-        <swiper-slide v-for="carousel in carouselData" :key="carousel.ScenicSpotID">
-          <img class="swiper-slide-backdrop" :src="carousel.Picture.PictureUrl1" :alt="carousel.ScenicSpotName">
-          <button class="swiper-slide-link" type="button">{{ carousel.City }} | {{ carousel.ScenicSpotName }}</button>
-        </swiper-slide>
-      </template>
-    </Carousel>
+    <Carousel :showData="carouselData" v-if="carouselData.length > 0"></Carousel>
   </article>
   
   <!-- 活動 -->

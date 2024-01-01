@@ -39,6 +39,11 @@ const router = createRouter({
         title: '品嘗美食',
         path: '/restaurant'
       }
+    },
+    {
+      path: '/detailed',
+      name: 'Detailed',
+      component: () => import('../views/DetailedView.vue'),
     }
   ]
 })

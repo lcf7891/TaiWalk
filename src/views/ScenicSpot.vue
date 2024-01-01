@@ -6,7 +6,7 @@ import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useSearchStore } from '@/stores/useSearchStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
 import Card from '@/components/CardVertical.vue'
-import PageNav from '@/components/pageNavigation.vue'
+// import PageNav from '@/components/pageNavigation.vue'
 
 const getAPI = useGetDataStore()
 // 動態圖片路徑
@@ -72,7 +72,7 @@ const { SearchResult } = storeToRefs(searchData)
       搜尋
     </button>
   </form>
-  <PageNav :dataList="ScenicSpotData" />
+  <!-- <PageNav :dataList="ScenicSpotData" /> -->
   <article class="md:mb-40 mb-15" v-if="SearchResult.length > 0">
     <div class="md:mb-3 mb-2">
       <h2 class="inline-block font-light md:text-4xl text-2xl pr-2">搜尋結果</h2>
