@@ -111,7 +111,7 @@ function toDetail(item) {
   </header>
   <!-- 輪播 -->
   <article class="md:mb-9 mb-6">
-    <Carousel :showData="carouselData" v-if="carouselData.length > 0"></Carousel>
+    <Carousel :showData="carouselData" :home="true" v-if="carouselData.length > 0"></Carousel>
   </article>
   
   <!-- 活動 -->

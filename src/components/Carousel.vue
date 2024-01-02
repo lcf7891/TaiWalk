@@ -1,11 +1,23 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { register } from 'swiper/element/bundle'
+import { usePageChangeStore } from '@/stores/usePageChangeStore'
 
+// 實體輪播套件
 register()
-const props = defineProps(['showData','home'])
-const navState = computed(() => props.showData.length > 1)
-console.log(navState)
+// 傳進外部資料
+const props = defineProps({
+  showData: {
+    type: Object,
+  },
+  home: {
+    type: Boolean,
+    default: false,
+  },
+})
+// 輪播選項
 const navigationControl = ref({
   prevEl: '.swiper-btn-prev',
   nextEl: '.swiper-btn-next',
@@ -14,18 +26,35 @@ const paginationControl = ref({
   clickable: true,
   dynamicBullets: true,
 })
+// 輪播資料
+const propsData = ref([])
+propsData.value = props.showData
+// 判斷是不是首頁
+const isHome = ref(false)
+isHome.value = props.home
+
+const router = useRouter()
+// 載入資料狀態 Store
+const pageStatus = usePageChangeStore()
+const { showDetail } = storeToRefs(pageStatus)
+function toDetail(item) {
+  pageStatus.pageData(item)
+  router.push({
+    name: 'Detailed'
+  })
+}
+// 判斷在詳細介紹時要顯示的圖片量
+const detailState = computed(() => showDetail.value.Pictures.length > 1)
 </script>
 
 <template>
-  <swiper-container
-    :navigation="navigationControl"
-    :pagination="paginationControl"
-    loop="true"
-    autoplay-delay="5000"
-    v-if="navState">
-    <swiper-slide v-for="carousel in showData" :key="carousel.ScenicSpotID">
-      <img class="swiper-slide-backdrop" :src="carousel.Picture.PictureUrl1" :alt="carousel.ScenicSpotName">
-      <button class="swiper-slide-link" type="button" @click="toDetail(carousel)">{{ carousel.City }} | {{ carousel.ScenicSpotName }}</button>
+  <swiper-container :navigation="navigationControl"
+                    :pagination="paginationControl"
+                    loop="true" autoplay-delay="5000"
+                    v-if="isHome">
+    <swiper-slide v-for="item in propsData" :key="item.ID">
+      <img class="swiper-slide-backdrop" :src="item.Picture.PictureUrl1" :alt="item.Name">
+      <button class="swiper-slide-link" type="button" @click="toDetail(item)">{{ item.City }} | {{ item.Name }}</button>
     </swiper-slide>
     <div slot="container-end">
       <div class="swiper-btn-prev"></div>
@@ -33,14 +62,12 @@ const paginationControl = ref({
     </div>
   </swiper-container>
   <template v-else>
-    <swiper-container
-      :navigation="navigationControl"
-      :pagination="paginationControl"
-      loop="true"
-      autoplay-delay="5000"
-      v-if="home">
-      <swiper-slide v-for="carousel in showData" :key="carousel.ScenicSpotID">
-        <img class="swiper-slide-backdrop" :src="carousel.Picture.PictureUrl1" :alt="carousel.ScenicSpotName">
+    <swiper-container :navigation="navigationControl"
+                      :pagination="paginationControl"
+                      loop="true" autoplay-delay="5000"
+                      v-if="detailState">
+      <swiper-slide v-for="detail in showDetail.Pictures" :key="detail.ID">
+        <img class="swiper-slide-backdrop" :src="detail.PictureUrl" :alt="detail.PictureDescription">
       </swiper-slide>
       <div slot="container-end">
         <div class="swiper-btn-prev"></div>
@@ -49,12 +76,8 @@ const paginationControl = ref({
     </swiper-container>
     <swiper-container v-else>
       <swiper-slide>
-        <img class="swiper-slide-backdrop" :src="showData.Picture.PictureUrl1" :alt="showData.ScenicSpotName">
+        <img class="swiper-slide-backdrop" :src="showDetail.Picture.PictureUrl1" :alt="showDetail.Picture.PictureDescription1">
       </swiper-slide>
     </swiper-container>
   </template>
 </template>
-<!-- <swiper-slide>
-  <img class="swiper-slide-backdrop" src="https://fakeimg.pl/1500x500/646464/" alt="">
-  <button type="button" class="swiper-slide-link">城市名稱 | 景點名稱</button>
-</swiper-slide> -->

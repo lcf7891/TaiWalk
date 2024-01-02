@@ -1,18 +1,13 @@
 <script setup>
 import { storeToRefs } from 'pinia'
-import { usePageChangeStore } from '../stores/usePageChangeStore'
+import { usePageChangeStore } from '@/stores/usePageChangeStore'
+import Carousel from '@/components/Carousel.vue'
 
-const pageState = usePageChangeStore()
-const { showData } = storeToRefs(pageState)
-console.log(showData.value)
+const { showDetail } = storeToRefs(usePageChangeStore())
 </script>
 
 <template>
-  <div>
-    detailed
+  <div class="md:mb-7 mb-4">
+    <Carousel :showData="showDetail" />
   </div>
 </template>
-
-<style lang="scss" scoped>
-
-</style>
