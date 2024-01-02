@@ -16,6 +16,7 @@ export const useGetDataStore = defineStore('getData', () => {
   function OrganizeInfo(oldArray, isType) {
     const newArray = oldArray
     oldArray.forEach((item, idx) => {
+      newArray[idx].type = isType
       // 建立一致的 ID 與 Name
       newArray[idx].ID = item.ScenicSpotID || item.ActivityID || item.RestaurantID
       newArray[idx].Name = item.ScenicSpotName || item.ActivityName || item.RestaurantName
