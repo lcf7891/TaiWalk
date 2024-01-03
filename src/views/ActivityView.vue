@@ -49,8 +49,8 @@ const { cityName } = storeToRefs(zipCode)
     <label class="md:col-span-2 md:mb-0 mb-2" for="SelectCounty">
       <select class="h-full" name="SelectCounty" id="SelectCounty">
         <option value="all">全部縣市</option>
-        <option :value="city" v-for="city in cityName" :key="city">
-          {{ city }}
+        <option :value="city.enName" v-for="city in cityName" :key="city.enName+ctName">
+          {{ city.ctName }}
         </option>
       </select>
     </label>

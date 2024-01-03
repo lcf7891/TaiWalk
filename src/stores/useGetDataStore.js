@@ -61,7 +61,7 @@ export const useGetDataStore = defineStore('getData', () => {
     }
   }
 
-  // 取的動態圖片路徑
+  // 取得動態圖片路徑
   function GetImgUrl(url) {
     return new URL(`../assets/images/${url}`, import.meta.url).href
   }
