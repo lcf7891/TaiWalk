@@ -1,5 +1,8 @@
 <script setup>
+import { usePageChangeStore } from '@/stores/usePageChangeStore'
+
 const props = defineProps(['cardVers'])
+const pageStatus = usePageChangeStore()
 </script>
 
 <template>
@@ -15,7 +18,7 @@ const props = defineProps(['cardVers'])
               src="@/assets/images/icon/spot16.svg"
               alt="position spot">
         {{ item.City }}
-        <button type="button" class="card-btn card-btn-ver"></button>
+        <button type="button" class="card-btn card-btn-ver" @click="pageStatus.toDetail(item)"></button>
       </p>
     </div>
   </section>

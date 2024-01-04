@@ -38,7 +38,10 @@ module.exports = {
             'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)',
           },
         }
-      }
+      },
+      margin: {
+        '15': '3.75rem',
+      },
     },
   },
   plugins: [],

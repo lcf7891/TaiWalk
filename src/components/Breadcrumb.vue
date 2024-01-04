@@ -31,13 +31,11 @@ watchEffect(() => {
   </header>
 </template>
 
-<style lang="scss" scoped>
-  li:nth-last-child(1) {
-    a {
-      color: #646464;
-    }
-    span {
-      display: none;
-    }
+<style lang="postcss" scoped>
+  li:nth-last-child(1) a {
+    @apply text-primary;
+  }
+  li:nth-last-child(1) span {
+    @apply hidden;
   }
 </style>

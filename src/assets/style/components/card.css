@@ -1,12 +1,12 @@
 @layer components {
   .card-hor {
-    @apply inline-flex;
+    @apply flex;
   }
   .card-hor-img {
     @apply md:w-40 w-24 md:h-40 h-20 aspect-[1.2/1] object-cover md:rounded-l-xl rounded-l-lg duration-300 ease-in-out hover:scale-[1.1] md:hover:rounded-xl hover:rounded-lg z-10;
   }
   .card-hor-body {
-    @apply relative w-full bg-info border border-light md:rounded-r-xl rounded-r-lg md:py-4 md:px-7 px-4;
+    @apply flex flex-col w-full bg-info border border-light md:rounded-r-xl rounded-r-lg md:py-4 md:px-7 px-4;
   }
   .card-subtitle {
     @apply text-primary md:text-base text-xs mb-1;

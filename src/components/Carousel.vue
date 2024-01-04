@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { register } from 'swiper/element/bundle'
 import { usePageChangeStore } from '@/stores/usePageChangeStore'
@@ -33,16 +32,9 @@ propsData.value = props.showData
 const isHome = ref(false)
 isHome.value = props.home
 
-const router = useRouter()
 // 載入資料狀態 Store
 const pageStatus = usePageChangeStore()
 const { showDetail } = storeToRefs(pageStatus)
-function toDetail(item) {
-  pageStatus.pageData(item)
-  router.push({
-    name: 'Detailed'
-  })
-}
 // 判斷在詳細介紹時要顯示的圖片量
 const detailState = computed(() => showDetail.value.Pictures.length > 1)
 </script>
@@ -54,7 +46,9 @@ const detailState = computed(() => showDetail.value.Pictures.length > 1)
                     v-if="isHome">
     <swiper-slide v-for="item in propsData" :key="item.ID">
       <img class="swiper-slide-backdrop" :src="item.Picture.PictureUrl1" :alt="item.Name">
-      <button class="swiper-slide-link" type="button" @click="toDetail(item)">{{ item.City }} | {{ item.Name }}</button>
+      <button class="swiper-slide-link" type="button" @click="pageStatus.toDetail(item)">
+        {{ item.City }} | {{ item.Name }}
+      </button>
     </swiper-slide>
     <div slot="container-end">
       <div class="swiper-btn-prev"></div>

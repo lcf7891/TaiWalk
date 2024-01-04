@@ -1,5 +1,8 @@
 <script setup>
+import { usePageChangeStore } from '@/stores/usePageChangeStore'
+
 const props = defineProps(['cardHors'])
+const pageStatus = usePageChangeStore()
 </script>
 
 <template>
@@ -7,10 +10,12 @@ const props = defineProps(['cardHors'])
     <img :src="item.Picture.PictureUrl1" :alt="item.ActivityName" class="card-hor-img" v-if="item.showImg">
     <img src="@/assets/images/NoImage-1100x400.svg" alt="No Image" class="card-hor-img" v-else>
     <div class="card-hor-body">
-      <span class="card-subtitle">{{ item.StartTime }} - {{ item.EndTime }}</span>
-      <h4 class="card-title">
-        {{ item.ActivityName }}
-      </h4>
+      <div class="mb-auto">
+        <span class="card-subtitle">{{ item.StartTime }} - {{ item.EndTime }}</span>
+        <h4 class="card-title">
+          {{ item.ActivityName }}
+        </h4>
+      </div>
       <div class="card-footer">
         <p class="card-text">
           <img class="md:block hidden mr-1"
@@ -18,7 +23,7 @@ const props = defineProps(['cardHors'])
                 alt="position spot">
           {{ item.City }}
         </p>
-        <button class="card-btn card-btn-hor btn-arrow" type="button">詳細介紹</button>
+        <button class="card-btn card-btn-hor btn-arrow" type="button" @click="pageStatus.toDetail(item)">詳細介紹</button>
       </div>
     </div>
   </section>

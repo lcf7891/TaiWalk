@@ -1,7 +1,9 @@
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const usePageChangeStore = defineStore('PageNav', () => {
+  const router = useRouter()
   const currentPage = ref(1)
   const showDetail = ref({});
 
@@ -29,10 +31,25 @@ export const usePageChangeStore = defineStore('PageNav', () => {
     // 將整合完的陣列資料加入物件裡
     showDetail.value.Pictures = Pictures;
   }
+
+  function toDetail(item) {
+    pageData(item)
+    router.push({
+      name: 'Detailed'
+    })
+    router.afterEach((to, from, next) => {
+      console.log('新頁', to)
+      console.log('舊頁', from)
+      console.log(next)
+      window.scrollTo(0, 0);
+    });
+  }
+
   return {
     currentPage,
     showDetail,
-    pageData
+    pageData,
+    toDetail
   }
 })
 
