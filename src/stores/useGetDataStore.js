@@ -120,8 +120,14 @@ export const useGetDataStore = defineStore('getData', () => {
   }
   // 處理資料
   function OrganizeInfo(oldArray, isType) {
+    let filterData = []
+    if (isType === 'Activity') {
+      filterData = DeletePastDates(oldArray)
+    } else {
+      filterData = oldArray
+    }
     const newArray = []
-    oldArray.forEach((obj) => {
+    filterData.forEach((obj) => {
       const tempItem = {
         Type: isType,
         Phone: obj.Phone,
