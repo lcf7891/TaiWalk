@@ -7,7 +7,7 @@ const pageStatus = usePageChangeStore()
 
 <template>
   <section class="card-ver" v-for="item in props.cardVers" :key="item.ID">
-    <img :src="item.Picture.PictureUrl1" :alt="item.Name" class="card-ver-img" v-if="item.showImg">
+    <img :src="item.Pictures[0].PictureUrl" :alt="item.Name" class="card-ver-img" v-if="item.Pictures.length > 0">
     <img src="@/assets/images/NoImage-1100x400.svg" alt="No Image" class="card-ver-img" v-else>
     <div class="relative p-2">
       <h4 class="card-title md:line-clamp-1">

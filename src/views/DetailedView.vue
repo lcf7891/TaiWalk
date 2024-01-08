@@ -23,7 +23,7 @@ const isType = computed(() => {
     cardData.value = randomData.ExtractRandomData(ScenicSpotData.value, 4)
     resClass = '探索景點'
   } else if (type === 'Activity') {
-    cardData.value = randomData.ExtractRandomData(ActivityData,value, 4)
+    cardData.value = randomData.ExtractRandomData(ActivityData.value, 4)
     resClass = '節慶活動'
   } else if (type === 'Restaurant') {
     cardData.value = randomData.ExtractRandomData(RestaurantData.value, 4)

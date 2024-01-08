@@ -28,6 +28,7 @@ watch(ScenicSpotData, (newQ) => {
     const imgData = randomData.FilterNoPictures(newQ)
     carouselData.value = randomData.ExtractRandomData(imgData, 6)
     spotVerCardData.value = randomData.ExtractRandomData(imgData, 4)
+    console.log('ScenicSpot', ScenicSpotData.value)
   }
 })
 
@@ -38,6 +39,7 @@ watch(ActivityData, (newQ) => {
     const timeData = randomData.RemoveSpecifiedDate(newQ)
     const randomAry = randomData.ExtractRandomData(timeData, 4)
     horCardData.value = randomData.TimeFormat(randomAry)
+    console.log('Activity', ActivityData.value)
   }
 })
 

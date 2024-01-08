@@ -6,14 +6,14 @@ const pageStatus = usePageChangeStore()
 </script>
 
 <template>
-  <section class="card-hor" v-for="item in props.cardHors" :key="item.ActivityID">
-    <img :src="item.Picture.PictureUrl1" :alt="item.ActivityName" class="card-hor-img" v-if="item.showImg">
+  <section class="card-hor" v-for="item in props.cardHors" :key="item.ID">
+    <img :src="item.Pictures[0].PictureUrl" :alt="item.Name" class="card-hor-img" v-if="item.Pictures.length > 0">
     <img src="@/assets/images/NoImage-1100x400.svg" alt="No Image" class="card-hor-img" v-else>
     <div class="card-hor-body">
       <div class="mb-auto">
         <span class="card-subtitle">{{ item.StartTime }} - {{ item.EndTime }}</span>
         <h4 class="card-title">
-          {{ item.ActivityName }}
+          {{ item.Name }}
         </h4>
       </div>
       <div class="card-footer">
