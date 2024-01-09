@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { usePageChangeStore } from '@/stores/usePageChangeStore'
@@ -17,7 +18,7 @@ const cardData = ref([])
 
 // 現在類別的 tag 與 card 的資料載入
 const isType = computed(() => {
-  const type = showDetail.value.type
+  const type = showDetail.value.Type
   let resClass = ''
   if (type === 'ScenicSpot') {
     cardData.value = randomData.ExtractRandomData(ScenicSpotData.value, 4)
@@ -31,20 +32,11 @@ const isType = computed(() => {
   }
   return resClass
 })
-// 個別類別的 tag
-const classList = computed(() => {
-  const data = showDetail.value
-  const keyAry = Object.keys(data)
-  const classAry = keyAry.filter((item) => item.match(/^Class/))
-  const tempAry = []
-  if (classAry.length) {
-    classAry.forEach((item) => {
-      tempAry.push(data[item])
-    })
-  }
-  return tempAry
+
+// 至頂
+useRouter().afterEach(() => {
+  window.scrollTo(0, 0)
 })
-// console.log(showDetail)
 </script>
 
 <template>
@@ -59,8 +51,8 @@ const classList = computed(() => {
       <span class="text-tag hover:text-primary md:text-xl text-sm border border-tag hover:border-primary rounded-[20px] py-1 px-4 mr-2">
         # {{ isType }}
       </span>
-      <template v-if="classList.length > 0">
-        <span class="text-tag hover:text-primary md:text-xl text-sm border border-tag hover:border-primary rounded-[20px] py-1 px-4 mr-2" v-for="item in classList" :key="item">
+      <template v-if="showDetail.Class.length > 0">
+        <span class="text-tag hover:text-primary md:text-xl text-sm border border-tag hover:border-primary rounded-[20px] py-1 px-4 mr-2" v-for="item in showDetail.Class" :key="item">
           # {{ item }}
         </span>
       </template>
@@ -70,7 +62,7 @@ const classList = computed(() => {
         景點介紹：
       </h3>
       <p class="md:text-lg text-base md:font-light">
-        {{ showDetail.DescriptionDetail }}
+        {{ showDetail.Description }}
       </p>
     </section>
     <section class="grid md:grid-cols-2 grid-cols-1 md:gap-8 md:bg-transparent bg-info">

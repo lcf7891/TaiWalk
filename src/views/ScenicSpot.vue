@@ -43,8 +43,7 @@ const themeList = ref([
 function imgUrl(url) {
   return getAPI.GetImgUrl(url)
 }
-// 載入景點全部資料
-const { ScenicSpotData } = storeToRefs(getAPI)
+
 // 渲染縣市選項
 const zipCode = useZipCodeStore()
 const { cityName } = storeToRefs(zipCode)
@@ -59,7 +58,7 @@ const { SearchResult } = storeToRefs(searchData)
     <label class="md:col-span-2 md:mb-0 mb-2" for="SelectCounty">
       <select class="h-full" name="SelectCounty" id="SelectCounty">
         <option value="all">全部縣市</option>
-        <option :value="city.enName" v-for="city in cityName" :key="city.enName+ctName">
+        <option :value="city.enName" v-for="city in cityName" :key="city.enName+city.ctName">
           {{ city.ctName }}
         </option>
       </select>

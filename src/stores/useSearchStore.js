@@ -16,25 +16,34 @@ export const useSearchStore = defineStore('searchData', () => {
   // 篩選資料
   function SearchData(data, keys) {
     const tempAry = []
-    data.forEach((item) => {
-      keys.forEach((key) => {
-        // 篩選地址
-        const address = new String(item.Address).includes(key)
-        // 篩選城市
-        const city = new String(item.City).includes(key)
-        // 篩選名稱
-        const name = new String(item.Name).includes(key)
-        if (address || city || name) {
-          tempAry.push(item)
-        }
+    if (keys.length > 1) {
+      console.log(keys.length)
+    } else {    
+      data.forEach((item) => {
+        // const content = Object.values(item).join('')
+        keys.forEach((key) => {
+          // const result = content.includes(key)
+          // if (result) {
+          //   tempAry.push(item)
+          // }
+          // 篩選地址
+          const address = new String(item.Address).includes(key)
+          // 篩選城市
+          const city = new String(item.City).includes(key)
+          // 篩選名稱
+          const name = new String(item.Name).includes(key)
+          if (address || city || name) {
+            tempAry.push(item)
+          }
+        })
       })
-    })
+    }
     SearchResult.value = tempAry
   }
   // 判斷搜尋的資料
   function SearchInfo(user) {
     // 處理關鍵字
-    const keyAry = String(user.keyWord).split(' ')
+    const keyAry = String(user.keyWord).trim().split(' ')
     // 依照選擇執行搜尋類別
     const option = user.select
     if (option === 'scenicSpot') {

@@ -1,15 +1,25 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useRandomDataStore = defineStore('randomData', () => {
+  // 剔除無圖片資料
+  function FilterNoPictures(data) {
+    const newData = []
+    data.forEach((item) => {
+      if (item.Pictures.length) {
+        newData.push(item)
+      }
+    });
+    return newData
+  }
   // 生成隨機數
   function randomNum(scope) {
     return Math.floor(Math.random() * scope) + 1
   }
   // 生成隨機數陣列
-  function getRandomNumbers(max, Qty) {
+  function getRandomNumbers(max, QTY) {
     let randomInt = randomNum(max)
     const tempAry = []
-    for (let i = 0; i < Qty; i += 1) {
+    for (let i = 0; i < QTY; i += 1) {
       tempAry.push(randomInt)
       while (tempAry.includes(randomInt)) {
         randomInt = randomNum(max)
@@ -17,42 +27,11 @@ export const useRandomDataStore = defineStore('randomData', () => {
     }
     return tempAry
   }
-  // 剔除指定日期資料
-  function RemoveSpecifiedDate(originData) {
-    const nowTime = new Date().toISOString().split('T')[0];
-    const newData = [];
-    originData.forEach((item) => {
-      const endTime = item.EndTime.split('T')[0];
-      if (endTime > nowTime) {
-        newData.push(item);
-      }
-    });
-    return newData;
-  }
-  // 修改日期格式
-  function TimeFormat(originData) {
-    const tempData = originData
-    originData.forEach((item, idx) => {
-      tempData[idx].StartTime = item.StartTime.split('T')[0].split('-').join('/')
-      tempData[idx].EndTime = item.EndTime.split('T')[0].split('-').join('/')
-    })
-    return tempData
-  }
-  // 剔除無圖片資料
-  function FilterNoPictures(originData) {
-    const newData = []
-    originData.forEach((item) => {
-      if (item.showImg) {
-        newData.push(item)
-      }
-    });
-    return newData
-  }
   // 生成指定數量隨機資料陣列
-  function ExtractRandomData(dataAry, Qty) {
-    const numAry = getRandomNumbers(dataAry.length, Qty)
+  function ExtractRandomData(data, QTY) {
+    const numAry = getRandomNumbers(data.length, QTY)
     const tempAry = []
-    dataAry.forEach((item, idx) => {
+    data.forEach((item, idx) => {
       if (numAry.includes(idx)) {
         tempAry.push(item)
       }
@@ -61,8 +40,6 @@ export const useRandomDataStore = defineStore('randomData', () => {
   }
 
   return {
-    RemoveSpecifiedDate,
-    TimeFormat,
     FilterNoPictures,
     ExtractRandomData,
   }

@@ -22,24 +22,20 @@ const randomData = useRandomDataStore()
 
 // 監聽景點資料
 const carouselData = ref([])
-const horCardData = ref([])
+const spotVerCardData = ref([])
 watch(ScenicSpotData, (newQ) => {
   if (newQ.length > 0) {
     const imgData = randomData.FilterNoPictures(newQ)
     carouselData.value = randomData.ExtractRandomData(imgData, 6)
     spotVerCardData.value = randomData.ExtractRandomData(imgData, 4)
-    console.log('ScenicSpot', ScenicSpotData.value)
   }
 })
 
 // 監聽活動資料
-const spotVerCardData = ref([])
+const horCardData = ref([])
 watch(ActivityData, (newQ) => {
   if (newQ.length > 0) {
-    const timeData = randomData.RemoveSpecifiedDate(newQ)
-    const randomAry = randomData.ExtractRandomData(timeData, 4)
-    horCardData.value = randomData.TimeFormat(randomAry)
-    console.log('Activity', ActivityData.value)
+    horCardData.value = randomData.ExtractRandomData(newQ, 4)
   }
 })
 
