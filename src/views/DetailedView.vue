@@ -14,9 +14,9 @@ const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(getAPI)
 const randomData = useRandomDataStore()
 
 const { showDetail } = storeToRefs(usePageChangeStore())
-const cardData = ref([])
 
 // 現在類別的 tag 與 card 的資料載入
+const cardData = ref([])
 const isType = computed(() => {
   const type = showDetail.value.Type
   let resClass = ''
@@ -32,7 +32,6 @@ const isType = computed(() => {
   }
   return resClass
 })
-
 // 至頂
 useRouter().afterEach(() => {
   window.scrollTo(0, 0)
@@ -69,8 +68,13 @@ useRouter().afterEach(() => {
       <div>
         <table class="block bg-info md:p-8 px-4 py-8 md:rounded-xl rounded-none">
           <tr class="block md:mb-3 mb-2">
-            <td class="md:text-xl text-lg font-bold">活動時間：</td>
-            <td class="md:text-lg text-base">06:00-19:00</td>
+            <td class="md:text-xl text-lg font-bold">
+              活動時間：
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showDetail.StartTime }} 
+            </td>
+            <td class="md:text-lg text-base">showDetail.OpenTime</td>
           </tr>
           <tr class="block md:mb-3 mb-2">
             <td class="md:text-xl text-lg font-bold">聯絡電話：</td>

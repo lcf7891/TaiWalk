@@ -1,15 +1,15 @@
 @layer components {
   .pagination {
-    @apply flex justify-center items-center;
+    @apply flex flex-wrap justify-center items-center;
   }
   .page-item {
-    @apply w-8 h-8 text-quaternary;
+    @apply w-8 h-8 text-quaternary md:my-0 my-1;
   }
   .page-btn {
     @apply  w-full h-full border border-light hover:border-quaternary rounded;
   }
   .page-btn.active {
-    @apply border-quaternary;
+    @apply border-quaternary bg-quaternary text-light;
   }
   .page-arrow {
     @apply relative flex justify-center items-center hover:bg-quaternary;
@@ -25,6 +25,6 @@
     @apply border-r-2 border-b-2 -rotate-45 mr-1;
   }
   .page-disabled {
-    @apply cursor-auto bg-light before:border-quaternary before:opacity-50 hover:bg-light hover:border-light hover:before:border-quaternary;
+    @apply cursor-auto bg-light rounded before:border-quaternary before:opacity-50 hover:bg-light hover:border-light hover:before:border-quaternary;
   }
 }

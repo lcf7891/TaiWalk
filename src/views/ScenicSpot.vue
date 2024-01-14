@@ -1,14 +1,15 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useZipCodeStore } from '@/stores/useZipCodeStore'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useSearchStore } from '@/stores/useSearchStore'
 import Breadcrumb from '@/components/BreadCrumb.vue'
 import Card from '@/components/CardVertical.vue'
-// import PageNav from '@/components/pageNavigation.vue'
+import Pagination from '@/components/Pagination.vue'
 
 const getAPI = useGetDataStore()
+const { ScenicSpotData } = storeToRefs(getAPI)
 // 動態圖片路徑
 const themeList = ref([
   {
@@ -50,6 +51,11 @@ const { cityName } = storeToRefs(zipCode)
 // 載入搜尋結果
 const searchData = useSearchStore()
 const { SearchResult } = storeToRefs(searchData)
+
+const pageData = ref([])
+function callBack(data) {
+  pageData.value = data
+}
 </script>
 
 <template>
@@ -71,8 +77,13 @@ const { SearchResult } = storeToRefs(searchData)
       搜尋
     </button>
   </form>
-  <!-- <PageNav :dataList="ScenicSpotData" /> -->
-  <article class="md:mb-40 mb-15" v-if="SearchResult.length > 0">
+  <article class="md:mb-40 mb-15" v-if="pageData.length > 0">
+    <div class="grid md:grid-cols-4 grid-cols-1 md:gap-7">
+      <Card :cardVers="pageData" />
+    </div>
+    <Pagination :outerData="ScenicSpotData" @pushData="callBack" />
+  </article>
+  <article class="md:mb-40 mb-15" v-else-if="SearchResult.length > 0">
     <div class="md:mb-3 mb-2">
       <h2 class="inline-block font-light md:text-4xl text-2xl pr-2">搜尋結果</h2>
       <p class="inline-block md:text-lg text-sm text-primary">
@@ -82,6 +93,7 @@ const { SearchResult } = storeToRefs(searchData)
     <div class="grid md:grid-cols-4 grid-cols-1 md:gap-7">
       <Card :cardVers="SearchResult" />
     </div>
+    <Pagination :outerData="SearchResult" @pushData="callBack" />
   </article>
   <article class="md:mb-20 mb-15" v-else>
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門主題</h3>

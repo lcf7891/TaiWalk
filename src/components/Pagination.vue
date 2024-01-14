@@ -1,109 +1,105 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 
-const props = defineProps(['dataList'])
+const props = defineProps(['outerData'])
+const emits = defineEmits(['pushData'])
+
+const originData = props.outerData
+const numPerPage = 20
 const currentPage = ref(1)
-const pagesAry = ref([])
+const totalPage = computed(() => Math.ceil(originData.length / numPerPage))
+const pageStatus = ref({
+  pervState: computed(() => currentPage.value === 1),
+  nextState: computed(() => currentPage.value === totalPage.value),
+  pageList: (val) => typeof(val) !== 'number'
+})
 
-function cutPages(data) {
-  let startNum = 1
-  const perPage = 20
-  const resData = []
-  while (startNum < data.length) {
-    resData.push(data.slice(startNum, (startNum + perPage)))
-    startNum += perPage
+const segmentedData = computed(() => {
+  const resAry = []
+  let startIdx = 0
+  let endIdx = numPerPage
+  for (let i = 0; i < totalPage.value; i += 1) {
+    const item = originData.slice(startIdx, endIdx)
+    resAry.push(item)
+    startIdx += numPerPage
+    endIdx += numPerPage
   }
-  return resData
+  return resAry
+})
+
+function changePageNum(min, max) {
+  const tempAry = []
+  if (min !== 0) {
+    min -= 1
+    tempAry.push(1, '...')
+  }
+  while (min < max) {
+    min += 1
+    tempAry.push(min)
+  }
+  if (max % numPerPage === 0) {
+    tempAry.push('...', totalPage.value)
+  }
+  return tempAry
 }
-pagesAry.value = cutPages(props.dataList)
-// // 渲染的資料
-// const renderData = ref([])
-// // 當前頁數
-// const currentPage = ref(1)
-// // 每頁資料量
-// const perPage = 20
-// // 總頁數
-// const pageTotal = Math.ceil(props.dataList.length / perPage)
-// // 切割資料
-// function cutPages() {
-//   // 最大索引值
-//   const maxData = (currentPage.value * perPage)
-//   // 最小索引值
-//   const minData = maxData - perPage + 1
-//   // 取得頁面資料
-//   props.dataList.forEach((item, idx) => {
-//     const runNum = idx + 1
-//     if (runNum >= minData && runNum <= maxData) {
-//       // 儲存到渲染陣列
-//       renderData.value.push(item)
-//     }
-//   })
-// }
-// // 顯示頁碼
-// const displayedPages = computed(() => {
-//   const startPage = Math.max(1, currentPage.value - perPage)
-//   const endPage = Math.min(pageTotal, startPage + perPage)
-//   return Array.from({ length: endPage - startPage }, (_, index) => startPage + index)
-// })
-// cutPages()
-// // 回上一頁
-// function pagePrev() {
-//   if (currentPage.value > 1) {
-//     currentPage.value -= 1
-//   }
-// }
-// // 往下一頁
-// function pageNext() {
-//   if (currentPage.value < pageTotal) {
-//     currentPage.value += 1
-//   }
-// }
-// // 切換目前頁碼
-// function pageChange(page) {
-//   currentPage.value = page
-// }
-// // 監聽現在頁數控制 prev、next 啟用與鎖定的狀態
-// const prevState = ref(true)
-// const nextState = ref(false)
-// watch(currentPage, (newQ) => {
-//   if (newQ <= 1) {
-//     prevState.value = true
-//   } else {
-//     prevState.value = false
-//   }
-//   if (newQ >= pageTotal) {
-//     nextState.value = true
-//   } else {
-//     nextState.value = false
-//   }
-// })
+
+const showPageNum = computed(() => {
+  let resAry = []
+  const idx =  Math.floor(currentPage.value / numPerPage)
+  const maxPage = idx * numPerPage + numPerPage
+  const minPage = maxPage - numPerPage
+
+  if (idx === 0 && currentPage.value > 0) {
+    resAry = changePageNum(minPage, numPerPage)
+  } else if (idx !== 0 && currentPage.value <= totalPage.value) {
+    if (maxPage > totalPage.value) {
+      resAry = changePageNum(minPage, totalPage.value)
+    } else {
+      resAry = changePageNum(minPage, maxPage)
+    }
+  }
+  return resAry
+})
+
+function changeCurrent(num) {
+  currentPage.value = num
+}
+
+function prevBtn() {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1
+  }
+}
+
+function nextBtn() {
+  if (currentPage.value < totalPage.value) {
+    currentPage.value += 1
+  }
+}
+
+onMounted(() => emits('pushData', segmentedData.value[currentPage.value - 1]))
+
+watch(currentPage, (newPage, oldPage) => {
+  if (newPage !== oldPage) {
+    emits('pushData', segmentedData.value[currentPage.value - 1])
+  }
+})
 </script>
 
 <template>
-  <div>
-    test
-  </div>
-</template>
-<!-- <template>
   <section class="md:pt-20 md:mb-28 py-16">
     <ul class="pagination">
       <li class="page-item">
-        <button class="page-btn page-arrow page-prev"
-                :class="{'page-disabled': prevState}"
-                type="button" @click="pagePrev"></button>
+        <button class="page-btn page-arrow page-prev" type="button" :class="{'page-disabled': pageStatus.pervState}" :disabled="pageStatus.pervState" @click="prevBtn"></button>
       </li>
-      <li class="page-item mx-1"
-          v-for="item, idx in displayedPages"
-          :key="item.ID">
-        <button class="page-btn" type="button" @click="pageChange(idx+1)">
-          {{ idx + 1 }}
+      <li class="page-item mx-1" v-for="num in showPageNum" :key="num">
+        <button class="page-btn" :class="[{'active': currentPage === num}, {'page-disabled': pageStatus.pageList(num)}]" type="button" :disabled="pageStatus.pageList(num)" @click="changeCurrent(num)">
+          {{ num }}
         </button>
       </li>
       <li class="page-item">
-        <button class="page-btn page-arrow page-next"
-                :class="{'page-disabled': nextState}"
-                type="button" @click="pageNext"></button>
+        <button class="page-btn page-arrow page-next" type="button" :class="{'page-disabled': pageStatus.nextState}" :disabled="pageStatus.nextState" @click="nextBtn"></button>
       </li>
     </ul>
   </section>
-</template> -->
+</template>
