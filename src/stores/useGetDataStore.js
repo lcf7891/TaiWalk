@@ -159,7 +159,6 @@ export const useGetDataStore = defineStore('getData', () => {
       RestaurantData.value = newArray
     }
   }
-  
   // 取得 API 資料
   async function GetData(isType) {
     try {
@@ -169,7 +168,6 @@ export const useGetDataStore = defineStore('getData', () => {
       console.log(`錯誤反饋資訊：`, error)
     }
   }
-
   // 取得動態圖片路徑
   function GetImgUrl(url) {
     return new URL(`../assets/images/${url}`, import.meta.url).href

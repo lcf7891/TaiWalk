@@ -4,8 +4,9 @@ import { useGetDataStore } from './useGetDataStore'
 
 export const useSearchStore = defineStore('searchData', () => {
   // 載入初始資料
-  const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(useGetDataStore())
-
+  const getAPI = useGetDataStore()
+  const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(getAPI)
+  // 存放搜尋結果
   const SearchResult = ref([])
   // 清除資料
   function ResetData() {
@@ -13,17 +14,56 @@ export const useSearchStore = defineStore('searchData', () => {
       SearchResult.value.pop()
     }
   }
-  // 篩選資料
-  function SearchData(data, keys) {
-    const tempAry = []
-    if (keys.length > 1) {
-      console.log(keys.length)
-    } else {    
-      data.forEach((item) => {
+  // 搜尋資料
+  function SearchInfo(user) {
+    // 解構輸入資料
+    const { pageStatus, county, keyWord } = user
+    // 判斷適用的資料
+    const chooseData = (type) => {
+      let tempData = []
+      switch (type) {
+        case 'ScenicSpot':
+          tempData = ScenicSpotData.value
+          break
+        case 'Activity':
+          tempData = ActivityData.value
+          break
+        case 'Restaurant':
+          tempData = RestaurantData.value
+          break
+        default:
+          console.log('choose', type)
+          break
+      }
+      return tempData
+    }
+    // 選擇資料
+    let useData = []
+    if (pageStatus === 'home') {
+      useData = chooseData(user.select)
+    } else {
+      const dataAry = chooseData(pageStatus)
+      // 判斷選擇的城市，取出對應的資料
+      switch (county) {
+        case 'all':
+          useData = dataAry
+          break
+        default:
+          dataAry.forEach(item => {
+            if (item.City === county) {
+              useData.push(item)
+            }
+          })
+          break
+      }
+    }
+    // 篩選資料
+    const searchData = (data, keys) => {
+      const tempData = []
+      data.forEach(item => {
         // const content = Object.values(item).join('')
-        keys.forEach((key) => {
-          // const result = content.includes(key)
-          // if (result) {
+        keys.forEach(key => {
+          // if (content.includes(key)) {
           //   tempAry.push(item)
           // }
           // 篩選地址
@@ -32,33 +72,28 @@ export const useSearchStore = defineStore('searchData', () => {
           const city = new String(item.City).includes(key)
           // 篩選名稱
           const name = new String(item.Name).includes(key)
-          if (address || city || name) {
-            tempAry.push(item)
+          // 篩選類別
+          const classList = String(item.Class).includes(key)
+          if (address || city || name || classList) {
+            tempData.push(item)
           }
         })
       })
+      SearchResult.value = tempData
     }
-    SearchResult.value = tempAry
-  }
-  // 判斷搜尋的資料
-  function SearchInfo(user) {
-    // 處理關鍵字
-    const keyAry = String(user.keyWord).trim().split(' ')
-    // 依照選擇執行搜尋類別
-    const option = user.select
-    if (option === 'scenicSpot') {
-      SearchData(ScenicSpotData.value, keyAry)
-    } else if (option === 'activity') {
-      SearchData(ActivityData.value, keyAry)
-    } else if (option === 'restaurant') {
-      SearchData(RestaurantData.value, keyAry)
+    // 將關鍵字轉陣列並去除陣列空值
+    const keyAry = String(keyWord).split(' ').filter(Boolean)
+    // 關鍵字有資料時進入篩選
+    if (keyAry.length) {
+      searchData(useData, keyAry)
+    } else {
+      SearchResult.value = useData
     }
   }
 
   return {
     SearchResult,
     ResetData,
-    SearchData,
     SearchInfo,
   }
 })

@@ -74,7 +74,7 @@ useRouter().afterEach(() => {
             <td class="md:text-lg text-base">
               {{ showDetail.StartTime }} 
             </td>
-            <td class="md:text-lg text-base">showDetail.OpenTime</td>
+            <td class="md:text-lg text-base">{{ showDetail.OpenTime }}</td>
           </tr>
           <tr class="block md:mb-3 mb-2">
             <td class="md:text-xl text-lg font-bold">聯絡電話：</td>

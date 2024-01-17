@@ -52,7 +52,8 @@ const router = useRouter()
 const SearchData = useSearchStore()
 // 使用者輸入資料
 const userForm = ref({
-  select: 'scenicSpot',
+  pageStatus: 'home',
+  select: 'ScenicSpot',
   keyWord: '',
 })
 function searchBtn() {
@@ -92,9 +93,9 @@ function toDetail(item) {
       <form class="col-span-2 md:flex md:flex-col md:justify-end">
         <label for="SearchOptions">
           <select class="mb-2" name="SearchOptions" id="SearchOptions" v-model="userForm.select">
-            <option value="scenicSpot">探索景點</option>
-            <option value="activity">節慶活動</option>
-            <option value="restaurant">品嚐美食</option>
+            <option value="ScenicSpot">探索景點</option>
+            <option value="Activity">節慶活動</option>
+            <option value="Restaurant">品嚐美食</option>
           </select>
         </label>
         <label for="SearchKey">
