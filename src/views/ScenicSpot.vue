@@ -4,7 +4,8 @@ import { storeToRefs } from 'pinia'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useZipCodeStore } from '@/stores/useZipCodeStore'
 import { useSearchStore } from '@/stores/useSearchStore'
-import Breadcrumb from '@/components/BreadCrumb.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
+import NotFound from '@/components/NotFound.vue'
 import Card from '@/components/CardVertical.vue'
 import Pagination from '@/components/Pagination.vue'
 
@@ -57,13 +58,16 @@ function searchBtn() {
   userInput.value.county = 'all'
   userInput.value.keyWord = ''
 }
+// 類別按鈕
+function typeBtn(option) {
+  searchStore.SearchClass(option, userInput.value.pageStatus)
+}
 // 頁碼元件回傳資料
 const pageData = ref([])
-function callBack(data) {
+function passValue(data) {
   pageData.value = data
 }
-watch(pageData, (newQ) => {
-  pageData.value = newQ
+watch(pageData, () => {
   window.scrollTo(0, 0)
 })
 </script>
@@ -87,22 +91,25 @@ watch(pageData, (newQ) => {
       搜尋
     </button>
   </form>
-  <article class="md:mb-40 mb-15" v-if="SearchResult.length > 0">
+  <article class="md:mb-40 mb-15" v-if="SearchResult !== false">
     <div class="md:mb-3 mb-2">
       <h2 class="inline-block font-light md:text-4xl text-2xl pr-2">搜尋結果</h2>
       <p class="inline-block md:text-lg text-sm text-primary">
         共有<span class="text-tag px-1">{{ SearchResult.length }}</span>筆
       </p>
     </div>
-    <div class="grid md:grid-cols-4 grid-cols-1 md:gap-7">
-      <Card :cardVers="pageData" />
-    </div>
-    <Pagination :outerData="SearchResult" @pushData="callBack" />
+    <template v-if="SearchResult.length > 0">
+      <div class="grid md:grid-cols-4 grid-cols-1 md:gap-7">
+        <Card :cardVers="pageData" />
+      </div>
+      <Pagination :outerData="SearchResult" @pushData="passValue" />
+    </template>
+    <NotFound v-else />
   </article>
   <article class="md:mb-20 mb-15" v-else>
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門主題</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">
-      <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button" v-for="theme in themeList" :key="theme.content">
+      <button class="md:col-span-2 col-span-1 relative md:text-2xl font-bold text-white" type="button" v-for="theme in themeList" :key="theme.content" @click="typeBtn(theme.content)">
         <img class="w-full md:h-40 h-20 object-cover md:rounded-3xl rounded-2xl" :src="getData.GetImgUrl(theme.backdrop)" alt="Button background image">
         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           {{ theme.content }}

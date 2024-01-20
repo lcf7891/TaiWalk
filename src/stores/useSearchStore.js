@@ -7,36 +7,38 @@ export const useSearchStore = defineStore('searchData', () => {
   const getAPI = useGetDataStore()
   const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(getAPI)
   // 存放搜尋結果
-  const SearchResult = ref([])
+  const SearchResult = ref(false)
   // 清除資料
   function ResetData() {
-    while (SearchResult.value.length) {
-      SearchResult.value.pop()
+    SearchResult.value = false
+    // SearchResult.value = [];
+    // while (SearchResult.value.length) {
+    //   SearchResult.value.pop()
+    // }
+  }
+  // 判斷適用的資料
+  function chooseData(type) {
+    let tempData = []
+    switch (type) {
+      case 'ScenicSpot':
+        tempData = ScenicSpotData.value
+        break
+      case 'Activity':
+        tempData = ActivityData.value
+        break
+      case 'Restaurant':
+        tempData = RestaurantData.value
+        break
+      default:
+        console.log('choose', type)
+        break
     }
+    return tempData
   }
   // 搜尋資料
   function SearchInfo(user) {
     // 解構輸入資料
     const { pageStatus, county, keyWord } = user
-    // 判斷適用的資料
-    const chooseData = (type) => {
-      let tempData = []
-      switch (type) {
-        case 'ScenicSpot':
-          tempData = ScenicSpotData.value
-          break
-        case 'Activity':
-          tempData = ActivityData.value
-          break
-        case 'Restaurant':
-          tempData = RestaurantData.value
-          break
-        default:
-          console.log('choose', type)
-          break
-      }
-      return tempData
-    }
     // 選擇資料
     let useData = []
     if (pageStatus === 'home') {
@@ -61,22 +63,22 @@ export const useSearchStore = defineStore('searchData', () => {
     const searchData = (data, keys) => {
       const tempData = []
       data.forEach(item => {
-        // const content = Object.values(item).join('')
+        const content = Object.values(item).join('')
         keys.forEach(key => {
-          // if (content.includes(key)) {
-          //   tempAry.push(item)
-          // }
-          // 篩選地址
-          const address = new String(item.Address).includes(key)
-          // 篩選城市
-          const city = new String(item.City).includes(key)
-          // 篩選名稱
-          const name = new String(item.Name).includes(key)
-          // 篩選類別
-          const classList = String(item.Class).includes(key)
-          if (address || city || name || classList) {
+          if (content.includes(key)) {
             tempData.push(item)
           }
+          // 篩選地址
+          // const address = String(item.Address).includes(key)
+          // 篩選城市
+          // const city = String(item.City).includes(key)
+          // 篩選名稱
+          // const name = String(item.Name).includes(key)
+          // 篩選類別
+          // const classList = String(item.Class).includes(key)
+          // if (address || city || name || classList) {
+          //   tempData.push(item)
+          // }
         })
       })
       SearchResult.value = tempData
@@ -90,11 +92,16 @@ export const useSearchStore = defineStore('searchData', () => {
       SearchResult.value = useData
     }
   }
-
+  // 搜尋類別
+  function SearchClass(option, type) {
+    const data = chooseData(type)
+    SearchResult.value = data.filter(item => String(item.Class).includes(option))
+  }
   return {
     SearchResult,
     ResetData,
     SearchInfo,
+    SearchClass,
   }
 })
 

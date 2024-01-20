@@ -7,44 +7,46 @@ export const useGetDataStore = defineStore('getData', () => {
   const axiosTDX = axios.create({
     baseURL: 'https://tdx.transportdata.tw/api/basic/v2/Tourism/'
   })
-
-  const ScenicSpotData = ref([])  // 景點資料
-  const ActivityData = ref([])  // 活動資料
-  const RestaurantData = ref([])  // 餐飲資料
+  // 景點資料
+  const ScenicSpotData = ref([])
+  // 活動資料
+  const ActivityData = ref([])
+  // 餐飲資料
+  const RestaurantData = ref([])
 
   // 圖片資訊
   function PictureObjToAry(data) {
     const resAry = []
     // 排除沒有 PictureUrl1 的資料
     if (Object.hasOwn(data.Picture, 'PictureUrl1')) {
-      // 將物件的 key 取出成陣列
-      const keyAry = Object.keys(data.Picture)
       // 將物件的 value 取出成陣列
       const valAry = Object.values(data.Picture)
-      // 宣告初始索引
-      let idx = 0
-      // key 的陣列包含網址與說明 2 項為一組，建立一個陣列長度除 2 的迴圈
-      for (let i = 0; i < keyAry.length / 2; i += 1) {
-        // value 值要與 key 對應，所以用 value 陣列來做 forEach
-        valAry.forEach((val) => {
-          // 取出副檔名
-          const extensionKey = val.split('.').reverse()[0]
-          // 用正則表達式做要檢查的內容
-          const imgFormat = /(jpe?g|png|gif|svg)/
-          // 檢查圖片連結格式副檔名
-          if (imgFormat.test(extensionKey)) {
-            const obj = {
-              // 第一個是連結網址
-              PictureUrl: valAry[idx],
-              // 第二個是圖片說明
-              PictureDescription: valAry[idx + 1],
-            }
-            resAry.push(obj)
-          }
-        })
-        // 每 2 個是一組，所以要 +2
-        idx += 2
-      }
+      // 篩選圖片格式
+      const imgAry = []
+      valAry.forEach((val, idx) => {
+        // 取出附檔名
+        const extensionKey = val.split('.').reverse()[0]
+        // 建立檢查的格式
+        const imgFormat = /(jpe?g|png|gif|svg)/
+        // 判斷圖片格式
+        if (imgFormat.test(extensionKey)) {
+          imgAry.push({
+            // idx 紀錄原始陣列索引
+            idx,
+            url: val,
+          })
+        }
+      })
+      // 配對圖片網址與描述，建立一個新陣列
+      imgAry.forEach((item) => {
+        // 使用圖片原始位置推算對應的描述位置
+        const descIdx = item.idx + 1
+        const obj = {
+          PictureUrl: item.url,
+          PictureDescription: valAry[descIdx],
+        }
+        resAry.push(obj)
+      })
     }
     return resAry
   }
@@ -63,7 +65,8 @@ export const useGetDataStore = defineStore('getData', () => {
         tempAry.push(data[item])
       })
     }
-    return tempAry
+    // 將陣列相同的內容篩除並回傳
+    return tempAry.filter((el, idx, ary) => ary.indexOf(el) === idx)
   }
   // 城市資訊
   function CheckCityObjects(data) {
@@ -72,14 +75,10 @@ export const useGetDataStore = defineStore('getData', () => {
     if (!Object.hasOwn(data, 'City')) {
       // 排除沒有 Address 的資料
       if (Object.hasOwn(data, 'Address')) {
-        resStr = data.Address   // 從 Address 取得 City 資訊
-                  .split('')    // 字串分割成陣列
-                  .slice(0, 3)  // 選擇要留下的片段
-                  .reduce((acc, cur) => acc + cur)  // 重新組成字串
-      } 
-      // else if (Object.hasOwn(data, 'Location')) {
-      //   console.log(data, data.Location)
-      // }
+        // 從 Address 取得 City 資訊將字串分割成陣列
+        // 選擇要留下的片段重新組成字串
+        resStr = data.Address.split('').slice(0, 3).reduce((acc, cur) => acc + cur)
+      }
     }
     return resStr
   }
@@ -93,7 +92,7 @@ export const useGetDataStore = defineStore('getData', () => {
     }
     if (desc === detail) {
       resStr = desc
-    } else if (desc !== undefined && desc !== detail) {
+    } else if (desc !== undefined && desc !== detail && detail !== undefined) {
       resStr = desc + detail
     } else if (detail === undefined) {
       resStr = desc
@@ -104,15 +103,15 @@ export const useGetDataStore = defineStore('getData', () => {
   }
   // 篩選過時日期
   function DeletePastDates(data) {
-    const nowTime = new Date().toISOString().split('T')[0];
-    const newData = [];
+    const nowTime = new Date().toISOString().split('T')[0]
+    const newData = []
     data.forEach((item) => {
-      const endTime = item.EndTime.split('T')[0];
+      const endTime = item.EndTime.split('T')[0]
       if (endTime > nowTime) {
-        newData.push(item);
+        newData.push(item)
       }
-    });
-    return newData;
+    })
+    return newData
   }
   // 格式化時間
   function TimeFormat(data) {

@@ -26,17 +26,12 @@ const paginationControl = ref({
   dynamicBullets: true,
 })
 // 輪播資料
-const propsData = ref([])
-propsData.value = props.showData
+const propsData = ref(props.showData)
 // 判斷是不是首頁
-const isHome = ref(false)
-isHome.value = props.home
-
+const isHome = ref(props.home)
 // 載入資料狀態 Store
 const pageStatus = usePageChangeStore()
 const { showDetail } = storeToRefs(pageStatus)
-// 判斷在詳細介紹時要顯示的圖片量
-const detailState = computed(() => showDetail.value.Pictures.length > 1)
 </script>
 
 <template>
@@ -59,7 +54,7 @@ const detailState = computed(() => showDetail.value.Pictures.length > 1)
     <swiper-container :navigation="navigationControl"
                       :pagination="paginationControl"
                       loop="true" autoplay-delay="5000"
-                      v-if="detailState">
+                      v-if="showDetail.Pictures.length > 1">
       <swiper-slide v-for="detail in showDetail.Pictures" :key="detail.ID">
         <img class="swiper-slide-backdrop" :src="detail.PictureUrl" :alt="detail.PictureDescription">
       </swiper-slide>
@@ -68,7 +63,7 @@ const detailState = computed(() => showDetail.value.Pictures.length > 1)
         <div class="swiper-btn-next"></div>
       </div>
     </swiper-container>
-    <swiper-container v-else>
+    <swiper-container v-else-if="showDetail.Pictures.length > 0">
       <swiper-slide>
         <img class="swiper-slide-backdrop" :src="showDetail.Pictures[0].PictureUrl" :alt="showDetail.Pictures[0].PictureDescription">
       </swiper-slide>

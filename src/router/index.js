@@ -44,6 +44,7 @@ const router = createRouter({
       path: '/detailed',
       name: 'Detailed',
       component: () => import('../views/DetailedView.vue'),
+      meta: {}
     }
   ]
 })

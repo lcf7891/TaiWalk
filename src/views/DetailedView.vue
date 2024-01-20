@@ -1,46 +1,82 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { usePageChangeStore } from '@/stores/usePageChangeStore'
 import { useRandomDataStore } from '@/stores/useRandomDataStore'
+import { useSearchStore } from '@/stores/useSearchStore'
+// import Breadcrumb from '@/stores/Breadcrumb.vue'
 import Carousel from '@/components/Carousel.vue'
 import CardVer from '@/components/CardVertical.vue'
 
+// 取得起始資料
 const getAPI = useGetDataStore()
 const { ScenicSpotData, ActivityData, RestaurantData } = storeToRefs(getAPI)
-
+// 載入隨機方法
 const randomData = useRandomDataStore()
-
-const { showDetail } = storeToRefs(usePageChangeStore())
-
-// 現在類別的 tag 與 card 的資料載入
-const cardData = ref([])
-const isType = computed(() => {
-  const type = showDetail.value.Type
-  let resClass = ''
-  if (type === 'ScenicSpot') {
-    cardData.value = randomData.ExtractRandomData(ScenicSpotData.value, 4)
-    resClass = '探索景點'
-  } else if (type === 'Activity') {
-    cardData.value = randomData.ExtractRandomData(ActivityData.value, 4)
-    resClass = '節慶活動'
-  } else if (type === 'Restaurant') {
-    cardData.value = randomData.ExtractRandomData(RestaurantData.value, 4)
-    resClass = '品嚐美食'
+// 取得頁面資訊
+const pageStore = usePageChangeStore()
+const { showDetail } = storeToRefs(pageStore)
+const { Type, ID } = showDetail.value
+// 判斷資訊
+const showInfo = computed(() => {
+  const obj = {}
+  switch (Type) {
+    case 'ScenicSpot':
+      obj.ctType = '探索景點'
+      obj.data = ScenicSpotData.value
+      break
+    case 'Activity':
+      obj.ctType = '節慶活動'
+      obj.data = ActivityData.value
+      break
+    case 'Restaurant':
+      obj.ctType = '品嚐美食'
+      obj.data = RestaurantData.value
+      break
+    default:
+      console.error('資料錯誤：', Type)
+      break
   }
-  return resClass
+  obj.subTitle = obj.ctType.split('').slice(2, 4).join('')
+  return obj
 })
-// 至頂
-useRouter().afterEach(() => {
+// judgmentData()
+const cardData = ref([])
+const randomInfo = showInfo.value.data.filter(item => item.City === showDetail.value.City)
+cardData.value = randomData.ExtractRandomData(randomInfo, 4)
+watch(showDetail, () => {
+  switch (ID) {
+    default:
+      cardData.value = randomData.ExtractRandomData(randomInfo, 4)
+      break
+  }
+})
+const searchStore = useSearchStore()
+const router = useRouter()
+function showMoreBtn() {
+  const options = {
+    pageStatus: Type,
+    county: showDetail.value.City,
+    keyWord: ''
+  }
+  searchStore.SearchInfo(options)
+  const pageName = `/${Type}`
+  router.push({
+    path: pageName,
+  })
+}
+// 置頂
+router.afterEach(() => {
   window.scrollTo(0, 0)
 })
 </script>
 
 <template>
+  <!-- <Breadcrumb /> -->
   <section class="md:mb-7 mb-4">
-    <Carousel :showData="showDetail" v-if="showDetail.Pictures.length > 0" />
+    <Carousel :showData="showDetail" />
   </section>
   <article class="mb-15">
     <h2 class="md:text-4xl text-2xl font-light md:mb-3 mb-2">
@@ -48,7 +84,7 @@ useRouter().afterEach(() => {
     </h2>
     <section class="flex md:mb-7 mb-4">
       <span class="text-tag hover:text-primary md:text-xl text-sm border border-tag hover:border-primary rounded-[20px] py-1 px-4 mr-2">
-        # {{ isType }}
+        # {{ showInfo.ctType }}
       </span>
       <template v-if="showDetail.Class.length > 0">
         <span class="text-tag hover:text-primary md:text-xl text-sm border border-tag hover:border-primary rounded-[20px] py-1 px-4 mr-2" v-for="item in showDetail.Class" :key="item">
@@ -72,7 +108,7 @@ useRouter().afterEach(() => {
               活動時間：
             </td>
             <td class="md:text-lg text-base">
-              {{ showDetail.StartTime }} 
+              {{ showDetail.StartTime }}
             </td>
             <td class="md:text-lg text-base">{{ showDetail.OpenTime }}</td>
           </tr>
@@ -101,9 +137,13 @@ useRouter().afterEach(() => {
     <section class="flex justify-between items-center w-full md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">
         還有這些不能錯過
-        <span class="md:inline-block hidden -ml-[6px]">的景點</span>
+        <span class="md:inline-block hidden -ml-[6px]">
+          的{{ showInfo.subTitle }}
+        </span>
       </h3>
-      <button class="btn-arrow text-tertiary font-medium mr-2" type="button">查看更多</button>
+      <button class="btn-arrow text-tertiary font-medium mr-2" type="button" @click="showMoreBtn">
+        更多{{ showDetail.City }}{{ showInfo.subTitle }}
+      </button>
     </section>
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
       <CardVer :cardVers="cardData" />

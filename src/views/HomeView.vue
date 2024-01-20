@@ -51,16 +51,19 @@ watch(RestaurantData, (newQ) => {
 const router = useRouter()
 const SearchData = useSearchStore()
 // 使用者輸入資料
-const userForm = ref({
+const userInput = ref({
   pageStatus: 'home',
   select: 'ScenicSpot',
   keyWord: '',
 })
 function searchBtn() {
   // 搜尋資料
-  SearchData.SearchInfo(userForm.value)
+  SearchData.SearchInfo(userInput.value)
+  // 表單初始
+  userInput.value.select = 'ScenicSpot'
+  userInput.value.keyWord = ''
   // 依選擇換頁
-  router.push(`/${userForm.value.select}`)
+  router.push(`/${userInput.value.select}`)
 }
 
 const pageState = usePageChangeStore()
@@ -92,14 +95,14 @@ function toDetail(item) {
       </div>
       <form class="col-span-2 md:flex md:flex-col md:justify-end">
         <label for="SearchOptions">
-          <select class="mb-2" name="SearchOptions" id="SearchOptions" v-model="userForm.select">
+          <select class="mb-2" name="SearchOptions" id="SearchOptions" v-model="userInput.select">
             <option value="ScenicSpot">探索景點</option>
             <option value="Activity">節慶活動</option>
             <option value="Restaurant">品嚐美食</option>
           </select>
         </label>
         <label for="SearchKey">
-          <input class="mb-2" type="text" name="SearchKey" id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字" v-model="userForm.keyWord">
+          <input class="mb-2" type="text" name="SearchKey" id="SearchKey" placeholder="你想去哪裡？請輸入關鍵字" v-model="userInput.keyWord">
         </label>
         <button class="btn-search w-full" type="button" @click.prevent="searchBtn">
           <img src="@/assets/images/icon/search30.svg" alt="search icon">
@@ -110,7 +113,7 @@ function toDetail(item) {
   </header>
   <!-- 輪播 -->
   <article class="md:mb-9 mb-6">
-    <Carousel :showData="carouselData" :home="true" v-if="carouselData.length > 0"></Carousel>
+    <Carousel :showData="carouselData" :home="true" v-if="carouselData.length > 0" />
   </article>
   
   <!-- 活動 -->
@@ -121,7 +124,7 @@ function toDetail(item) {
     </div>
     <!-- 橫式卡 -->
     <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
-      <CardHor :cardHors="horCardData"></CardHor>
+      <CardHor :cardHors="horCardData" />
     </section>
   </article>
   
@@ -133,7 +136,7 @@ function toDetail(item) {
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer :cardVers="spotVerCardData"></CardVer>
+      <CardVer :cardVers="spotVerCardData" />
     </section>
   </article>
 
@@ -145,7 +148,7 @@ function toDetail(item) {
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer :cardVers="cateringCardData"></CardVer>
+      <CardVer :cardVers="cateringCardData" />
     </section>
   </article>
 </template>

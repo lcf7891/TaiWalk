@@ -12,15 +12,15 @@ if (route.name !== 'home') {
 </script>
 
 <template>
-  <NavBar ref="navEl" />
+  <NavBar />
 
-  <main class="grow" ref="mainEl">
+  <main class="grow">
     <section class="container mx-auto md:pb-12 pb-6 px-4 mb-auto">
       <RouterView />
     </section>
   </main>
 
-  <Footer ref="fEl" />
+  <Footer />
 </template>
 
 <style>

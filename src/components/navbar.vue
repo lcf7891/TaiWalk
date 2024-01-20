@@ -3,11 +3,12 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useSearchStore } from '@/stores/useSearchStore'
 
+// 移動裝置選單切換
 const toggleMenu = ref(false)
-
 function btnChange() {
   toggleMenu.value = !toggleMenu.value
 }
+// 切換頁面清除搜尋資料
 const searchStore = useSearchStore()
 function pageClear() {
   searchStore.ResetData()
