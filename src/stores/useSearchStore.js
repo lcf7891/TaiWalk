@@ -35,6 +35,18 @@ export const useSearchStore = defineStore('searchData', () => {
     }
     return tempData
   }
+  function checkEventTime(data, time) {
+    const timestamp = (date) => +new Date(date)
+    const tempData = []
+    data.forEach(item => {
+      const dataTime = timestamp(item.EndTime)
+      const userTime = timestamp(time)
+      if (dataTime > userTime) {
+        tempData.push(item)
+      }
+    })
+    return tempData
+  }
   // 搜尋資料
   function SearchInfo(user) {
     // 解構輸入資料
@@ -44,7 +56,14 @@ export const useSearchStore = defineStore('searchData', () => {
     if (pageStatus === 'home') {
       useData = chooseData(user.select)
     } else {
-      const dataAry = chooseData(pageStatus)
+      let dataAry = []
+      // 活動資料增加日期篩選
+      if (pageStatus === 'Activity') {
+        const tempAry = chooseData(pageStatus)
+        dataAry = checkEventTime(tempAry, user.date)
+      } else {
+        dataAry = chooseData(pageStatus)
+      }
       // 判斷選擇的城市，取出對應的資料
       switch (county) {
         case 'all':

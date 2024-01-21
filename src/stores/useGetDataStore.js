@@ -13,7 +13,6 @@ export const useGetDataStore = defineStore('getData', () => {
   const ActivityData = ref([])
   // 餐飲資料
   const RestaurantData = ref([])
-
   // 圖片資訊
   function PictureObjToAry(data) {
     const resAry = []
@@ -107,7 +106,7 @@ export const useGetDataStore = defineStore('getData', () => {
     const newData = []
     data.forEach((item) => {
       const endTime = item.EndTime.split('T')[0]
-      if (endTime > nowTime) {
+      if (new Date(endTime) > new Date(nowTime)) {
         newData.push(item)
       }
     })
