@@ -30,11 +30,12 @@ export const useSearchStore = defineStore('searchData', () => {
         tempData = RestaurantData.value
         break
       default:
-        console.log('choose', type)
+        console.error('choose', type)
         break
     }
     return tempData
   }
+  // 日期篩選
   function checkEventTime(data, time) {
     const timestamp = (date) => +new Date(date)
     const tempData = []

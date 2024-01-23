@@ -163,7 +163,7 @@ export const useGetDataStore = defineStore('getData', () => {
       const response = await axiosTDX.get(isType)
       OrganizeInfo(response.data, isType)
     } catch (error) {
-      console.log(`錯誤反饋資訊：`, error)
+      console.error(`錯誤反饋資訊：`, error)
     }
   }
   // 取得動態圖片路徑

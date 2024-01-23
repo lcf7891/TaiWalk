@@ -8,7 +8,7 @@ import { useRandomDataStore } from '@/stores/useRandomDataStore'
 import { useSearchStore } from '@/stores/useSearchStore'
 // import Breadcrumb from '@/stores/Breadcrumb.vue'
 import Carousel from '@/components/Carousel.vue'
-import CardVer from '@/components/CardVertical.vue'
+import Card from '@/components/CardVertical.vue'
 
 // 取得起始資料
 const getAPI = useGetDataStore()
@@ -18,8 +18,87 @@ const randomData = useRandomDataStore()
 // 取得頁面資訊
 const pageStore = usePageChangeStore()
 const { showDetail } = storeToRefs(pageStore)
-const { Type, ID } = showDetail.value
+const { ID, Type } = showDetail.value
+// 表格項目
+const tableItem = [
+  {
+    type: 'ScenicSpot',
+    list: [
+      {
+        title: '開放時間',
+        content: showDetail.value.OpenTime,
+      },
+      {
+        title: '服務電話',
+        content: showDetail.value.Phone,
+      },
+      {
+        title: '景點地址',
+        content: showDetail.value.Address,
+      },
+      {
+        title: '官方網站',
+        content: showDetail.value.Website,
+      },
+      {
+        title: '票價資訊',
+        content: showDetail.value.TicketInfo,
+      },
+      {
+        title: '注意事項',
+        content: showDetail.value.Remarks,
+      },
+    ],
+  },
+  {
+    type: 'Activity',
+    list: [
+      {
+        title: '活動時間',
+        content: `${showDetail.value.StartTime} ~ ${showDetail.value.EndTime}`,
+      },
+      {
+        title: '聯絡電話',
+        content: showDetail.value.Phone,
+      },
+      {
+        title: '活動地點',
+        content: showDetail.value.Address,
+      },
+      {
+        title: '官方網址',
+        content: showDetail.value.Website,
+      },
+      {
+        title: '主辦單位',
+        content: showDetail.value.Organizer,
+      },
+    ],
+  },
+  {
+    type: 'Restaurant',
+    list: [
+      {
+        title: '營業時間',
+        content: showDetail.value.OpenTime,
+      },
+      {
+        title: '聯絡電話',
+        content: showDetail.value.Phone,
+      },
+      {
+        title: '餐廳地址',
+        content: showDetail.value.Address,
+      },
+      {
+        title: '官方網站',
+        content: showDetail.value.Website,
+      },
+    ],
+  },
+];
 // 判斷資訊
+const cardData = ref([])
 const showInfo = computed(() => {
   const obj = {}
   switch (Type) {
@@ -39,11 +118,11 @@ const showInfo = computed(() => {
       console.error('資料錯誤：', Type)
       break
   }
+  obj.table = showDetail.value;
   obj.subTitle = obj.ctType.split('').slice(2, 4).join('')
   return obj
 })
-// judgmentData()
-const cardData = ref([])
+// 隨機卡片資料
 const randomInfo = showInfo.value.data.filter(item => item.City === showDetail.value.City)
 cardData.value = randomData.ExtractRandomData(randomInfo, 4)
 watch(showDetail, () => {
@@ -53,6 +132,7 @@ watch(showDetail, () => {
       break
   }
 })
+// 搜尋功能
 const searchStore = useSearchStore()
 const router = useRouter()
 function showMoreBtn() {
@@ -67,6 +147,10 @@ function showMoreBtn() {
     path: pageName,
   })
 }
+// GPS location
+// navigator.geolocation.watchPosition((position) => {
+//   console.log(position)
+// })
 // 置頂
 router.afterEach(() => {
   window.scrollTo(0, 0)
@@ -94,31 +178,80 @@ router.afterEach(() => {
     </section>
     <section class="md:mb-16 mb-8">
       <h3 class="md:text-xl text-lg md:font-bold font-medium md:mb-3 mb-2">
-        景點介紹：
+        {{ showInfo.subTitle }}介紹：
       </h3>
       <p class="md:text-lg text-base md:font-light">
         {{ showDetail.Description }}
       </p>
     </section>
     <section class="grid md:grid-cols-2 grid-cols-1 md:gap-8 md:bg-transparent bg-info">
-      <div>
+      <div class="inline-block">
         <table class="block bg-info md:p-8 px-4 py-8 md:rounded-xl rounded-none">
-          <tr class="block md:mb-3 mb-2">
-            <td class="md:text-xl text-lg font-bold">
-              活動時間：
+          <tr class="block md:mb-3 mb-2"
+              v-if="showInfo.table.OpenTime || showInfo.table.StartTime && showInfo.table.EneTime">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              <span v-if="Type === 'ScenicSpot'">開放時間：</span>
+              <span v-else-if="Type === 'Activity'">活動時間：</span>
+              <span v-else-if="Type === 'Restaurant'">營業時間：</span>
             </td>
             <td class="md:text-lg text-base">
-              {{ showDetail.StartTime }}
+              <span v-if="Type === 'Activity'">
+                {{ showInfo.table.StartTime }} ~ {{ showInfo.table.EndTime }}
+              </span>
+              <span v-else>{{ showInfo.table.OpenTime }}</span>
+              
             </td>
-            <td class="md:text-lg text-base">{{ showDetail.OpenTime }}</td>
           </tr>
-          <tr class="block md:mb-3 mb-2">
-            <td class="md:text-xl text-lg font-bold">聯絡電話：</td>
-            <td class="md:text-lg text-base">886-3-9545114</td>
+          <tr class="block md:mb-3 mb-2" v-if="showInfo.table.Phone">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              <span v-if="Type === 'ScenicSpot'">服務電話：</span>
+              <span v-else>聯絡電話：</span>
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showInfo.table.Phone }}
+            </td>
           </tr>
-          <tr class="block md:mb-3 mb-2">
-            <td class="md:text-xl text-lg font-bold">主辦單位：</td>
-            <td class="md:text-lg text-base">宜蘭縣265羅東鎮中正北路118號</td>
+          <tr class="block md:mb-3 mb-2" v-if="showInfo.table.Address">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              <span v-if="Type === 'ScenicSpot'">景點地址：</span>
+              <span v-else-if="Type === 'Activity'">活動地點：</span>
+              <span v-else-if="Type === 'Restaurant'">餐廳地址：</span>
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showInfo.table.Address }}
+            </td>
+          </tr>
+          <tr class="block md:mb-3 mb-2" v-if="showInfo.table.Website">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              官方網站：
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showInfo.table.Website }}
+            </td>
+          </tr>
+          <tr class="block md:mb-3 mb-2" v-if="showInfo.table.TicketInfo">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              票價資訊：
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showInfo.table.TicketInfo }}
+            </td>
+          </tr>
+          <tr class="block md:mb-3 mb-2" v-if="showInfo.table.Remarks">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              注意事項：
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showInfo.table.Remarks }}
+            </td>
+          </tr>
+          <tr class="block md:mb-3 mb-2" v-if="showInfo.table.Organizer">
+            <td class="w-28 md:text-xl text-lg font-bold">
+              主辦單位：
+            </td>
+            <td class="md:text-lg text-base">
+              {{ showInfo.table.Organizer }}
+            </td>
           </tr>
         </table>
       </div>
@@ -146,7 +279,7 @@ router.afterEach(() => {
       </button>
     </section>
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer :cardVers="cardData" />
+      <Card :cardVers="cardData" />
     </section>
   </article>
 </template>
