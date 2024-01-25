@@ -9,8 +9,8 @@ const codeWriter = ref(([]+!{})[~+[]*~+[]] + ([]+!{})[~+[]+~+[]*~!+[]+~+[]*~+[]]
 <template>
   <footer class="text-center bg-quaternary py-5">
     <p class="text-sm text-white">
-      台灣走走ㆍTai Walk &copy; {{ isYear }} 
-      <a class="hover:text-line" href="https://2021.thef2e.com/" target="_blank" rel="noreferrer noopener">The F2E 3rd</a> - 
+      Copyright &copy; {{ isYear }} 
+      台灣走走ㆍTai Walk - 
       Design：<a class="hover:text-line" :href="design" target="_blank" rel="noreferrer noopener">早餐</a> / 
       Layout：<a class="hover:text-line" href="#">{{ codeWriter }}</a>
     </p>

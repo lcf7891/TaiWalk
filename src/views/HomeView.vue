@@ -6,6 +6,7 @@ import { useGetDataStore } from '@/stores/useGetDataStore'
 import { useRandomDataStore } from '@/stores/useRandomDataStore'
 import { useSearchStore } from '@/stores/useSearchStore'
 import { usePageChangeStore } from '@/stores/usePageChangeStore'
+import Loading from '@/components/Loading.vue'
 import Carousel from '@/components/Carousel.vue'
 import CardHor from '@/components/CardHorizontal.vue'
 import CardVer from '@/components/CardVertical.vue'
@@ -113,9 +114,9 @@ function toDetail(item) {
   </header>
   <!-- 輪播 -->
   <article class="md:mb-9 mb-6">
-    <Carousel :showData="carouselData" :home="true" v-if="carouselData.length > 0" />
+    <Loading v-if="carouselData.length <= 0" />
+    <Carousel :showData="carouselData" :home="true" v-else />
   </article>
-  
   <!-- 活動 -->
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
@@ -124,10 +125,10 @@ function toDetail(item) {
     </div>
     <!-- 橫式卡 -->
     <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
-      <CardHor :cardHors="horCardData" />
+      <Loading v-if="horCardData.length <= 0" />
+      <CardHor :cardHors="horCardData" v-else />
     </section>
   </article>
-  
   <!-- 景點 -->
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
@@ -136,10 +137,10 @@ function toDetail(item) {
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer :cardVers="spotVerCardData" />
+      <Loading v-if="spotVerCardData.length <= 0" />
+      <CardVer :cardVers="spotVerCardData" v-else />
     </section>
   </article>
-
   <!-- 美食 -->
   <article class="mb-9">
     <div class="flex justify-between items-center md:mb-3 mb-2">
@@ -148,7 +149,8 @@ function toDetail(item) {
     </div>
     <!-- 直式卡 -->
     <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <CardVer :cardVers="cateringCardData" />
+      <Loading v-if="cateringCardData.length <= 0" />
+      <CardVer :cardVers="cateringCardData" v-else />
     </section>
   </article>
 </template>

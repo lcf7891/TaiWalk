@@ -134,7 +134,7 @@ export const useGetDataStore = defineStore('getData', () => {
         OpenTime: obj.OpenTime,
         ID: obj[`${isType}ID`],
         Name: obj[`${isType}Name`],
-        Website: obj.WebsiteUrl || obj.Location,
+        Website: obj.WebsiteUrl,
         City: obj.City || CheckCityObjects(obj),
         Class: ClassObjToAry(obj),
         Description: IntegrateDescription(obj),

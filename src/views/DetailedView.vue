@@ -19,84 +19,6 @@ const randomData = useRandomDataStore()
 const pageStore = usePageChangeStore()
 const { showDetail } = storeToRefs(pageStore)
 const { ID, Type } = showDetail.value
-// 表格項目
-const tableItem = [
-  {
-    type: 'ScenicSpot',
-    list: [
-      {
-        title: '開放時間',
-        content: showDetail.value.OpenTime,
-      },
-      {
-        title: '服務電話',
-        content: showDetail.value.Phone,
-      },
-      {
-        title: '景點地址',
-        content: showDetail.value.Address,
-      },
-      {
-        title: '官方網站',
-        content: showDetail.value.Website,
-      },
-      {
-        title: '票價資訊',
-        content: showDetail.value.TicketInfo,
-      },
-      {
-        title: '注意事項',
-        content: showDetail.value.Remarks,
-      },
-    ],
-  },
-  {
-    type: 'Activity',
-    list: [
-      {
-        title: '活動時間',
-        content: `${showDetail.value.StartTime} ~ ${showDetail.value.EndTime}`,
-      },
-      {
-        title: '聯絡電話',
-        content: showDetail.value.Phone,
-      },
-      {
-        title: '活動地點',
-        content: showDetail.value.Address,
-      },
-      {
-        title: '官方網址',
-        content: showDetail.value.Website,
-      },
-      {
-        title: '主辦單位',
-        content: showDetail.value.Organizer,
-      },
-    ],
-  },
-  {
-    type: 'Restaurant',
-    list: [
-      {
-        title: '營業時間',
-        content: showDetail.value.OpenTime,
-      },
-      {
-        title: '聯絡電話',
-        content: showDetail.value.Phone,
-      },
-      {
-        title: '餐廳地址',
-        content: showDetail.value.Address,
-      },
-      {
-        title: '官方網站',
-        content: showDetail.value.Website,
-      },
-    ],
-  },
-];
 // 判斷資訊
 const cardData = ref([])
 const showInfo = computed(() => {
@@ -135,12 +57,15 @@ watch(showDetail, () => {
 // 搜尋功能
 const searchStore = useSearchStore()
 const router = useRouter()
+// 更多相關資料
 function showMoreBtn() {
+  // 建立選項
   const options = {
     pageStatus: Type,
     county: showDetail.value.City,
     keyWord: ''
   }
+  // 放入搜尋
   searchStore.SearchInfo(options)
   const pageName = `/${Type}`
   router.push({
@@ -148,9 +73,30 @@ function showMoreBtn() {
   })
 }
 // GPS location
-// navigator.geolocation.watchPosition((position) => {
-//   console.log(position)
-// })
+// const DefaultCoordinates = {
+//   lat: 23.4698799,
+//   lon: 120.9572688,
+//   n: 21,
+// };
+function GPSsuccess(position) {
+  const lon = position.coords.longitude
+  const lat = position.coords.latitude
+  console.log('g', position)
+  console.log('nt', lon, lat)
+}
+function GPSerror(error) {
+  console.log('err', error)
+}
+const GPSoptions = {
+  enableHighAccuracy: true,
+  maximumAge: 30000,
+  timeout: 10000,
+}
+navigator.geolocation.getCurrentPosition(
+  GPSsuccess,
+  GPSerror,
+  GPSoptions,
+)
 // 置頂
 router.afterEach(() => {
   window.scrollTo(0, 0)
@@ -159,9 +105,11 @@ router.afterEach(() => {
 
 <template>
   <!-- <Breadcrumb /> -->
+  <!-- 輪播 -->
   <section class="md:mb-7 mb-4">
     <Carousel :showData="showDetail" />
   </section>
+  <!-- 詳細內容 -->
   <article class="mb-15">
     <h2 class="md:text-4xl text-2xl font-light md:mb-3 mb-2">
       {{ showDetail.Name }}
@@ -188,7 +136,7 @@ router.afterEach(() => {
       <div class="inline-block">
         <table class="block bg-info md:p-8 px-4 py-8 md:rounded-xl rounded-none">
           <tr class="block md:mb-3 mb-2"
-              v-if="showInfo.table.OpenTime || showInfo.table.StartTime && showInfo.table.EneTime">
+              v-if="showInfo.table.OpenTime || showInfo.table.StartTime || showInfo.table.EneTime">
             <td class="w-28 md:text-xl text-lg font-bold">
               <span v-if="Type === 'ScenicSpot'">開放時間：</span>
               <span v-else-if="Type === 'Activity'">活動時間：</span>
@@ -199,7 +147,6 @@ router.afterEach(() => {
                 {{ showInfo.table.StartTime }} ~ {{ showInfo.table.EndTime }}
               </span>
               <span v-else>{{ showInfo.table.OpenTime }}</span>
-              
             </td>
           </tr>
           <tr class="block md:mb-3 mb-2" v-if="showInfo.table.Phone">
@@ -226,7 +173,9 @@ router.afterEach(() => {
               官方網站：
             </td>
             <td class="md:text-lg text-base">
-              {{ showInfo.table.Website }}
+              <a class="text-quinary hover:text-secondary hover:underline" :href="showInfo.table.Website" target="_blank" rel="noreferrer noopener" :alt="Type">
+                {{ showInfo.table.Website }}
+              </a>
             </td>
           </tr>
           <tr class="block md:mb-3 mb-2" v-if="showInfo.table.TicketInfo">
@@ -266,6 +215,7 @@ router.afterEach(() => {
       </aside>
     </section>
   </article>
+  <!-- 更多介紹 -->
   <article class="md:mb-28 md:pb-2 mb-15">
     <section class="flex justify-between items-center w-full md:mb-3 mb-2">
       <h3 class="md:text-4xl text-2xl font-light">

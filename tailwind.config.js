@@ -24,8 +24,13 @@ module.exports = {
         '46': '11.5rem',
         '100': '25rem',
       },
+      boxShadow: {
+        'radiant': '0 0 10px, 0 0 20px, 0 0 40px',
+      },
       animation: {
         'wander': 'wander 1s infinite',
+        'rotateCircle': 'rotateCircle 10s linear infinite',
+        'elementScaling': 'elementScaling 1s linear infinite',
       },
       keyframes: {
         wander: {
@@ -37,7 +42,23 @@ module.exports = {
             transform: 'translateX(25%) rotate(-45deg)',
             'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)',
           },
-        }
+        },
+        rotateCircle: {
+          '0%': {
+            filter: 'hue-rotate(0deg)',
+          },
+          '100%': {
+            filter: 'hue-rotate(360deg)',
+          },
+        },
+        elementScaling: {
+          '0%': {
+            transform: 'scale(1)',
+          },
+          '60%, 100%': {
+            transform: 'scale(0)',
+          },
+        },
       },
       margin: {
         '15': '3.75rem',

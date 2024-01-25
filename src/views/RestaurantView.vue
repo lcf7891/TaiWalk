@@ -69,6 +69,7 @@ watch(pageData, () => {
 
 <template>
   <Breadcrumb />
+  <!-- 搜尋選項 -->
   <form class="grid md:grid-cols-8 md:gap-2 md:pt-2 md:pb-9 mb-4">
     <label class="md:col-span-2 md:mb-0 mb-2" for="SelectCounty">
       <select class="h-full" name="SelectCounty" id="SelectCounty" v-model="userInput.county">
@@ -86,6 +87,7 @@ watch(pageData, () => {
       搜尋
     </button>
   </form>
+  <!-- 搜尋結果 -->
   <article class="md:mb-40 mb-15" v-if="SearchResult !== false">
     <div class="md:mb-3 mb-2">
       <h2 class="inline-block font-light md:text-4xl text-2xl pr-2">搜尋結果</h2>
@@ -101,6 +103,7 @@ watch(pageData, () => {
     </template>
     <NotFound v-else />
   </article>
+  <!-- 類別按鈕 -->
   <article class="md:mb-20 mb-15" v-else>
     <h3 class="md:text-4xl text-2xl font-light mb-4">熱門分類</h3>
     <div class="grid lg:grid-cols-8 md:grid-cols-4 grid-cols-2 md:gap-7 gap-4">

@@ -45,3 +45,9 @@ function pageClear() {
   </nav>
   <div class="nav-backdrop" v-show="toggleMenu"></div>
 </template>
+
+<style lang="postcss" scoped>
+  .router-link-active {
+    @apply before:opacity-100;
+  }
+</style>
