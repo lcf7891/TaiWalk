@@ -124,9 +124,9 @@ function toDetail(item) {
       <RouterLink class="btn-arrow text-tertiary font-medium mr-2" to="/activity">查看更多活動</RouterLink>
     </div>
     <!-- 橫式卡 -->
-    <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9">
-      <Loading v-if="horCardData.length <= 0" />
-      <CardHor :cardHors="horCardData" v-else />
+    <Loading v-if="horCardData.length <= 0" />
+    <section class="grid lg:grid-cols-2 grid-cols-1 lg:gap-y-3 lg:gap-x-7 gap-y-4 mb-9" v-else>
+      <CardHor :cardHors="horCardData" />
     </section>
   </article>
   <!-- 景點 -->
@@ -136,9 +136,9 @@ function toDetail(item) {
       <RouterLink class="btn-arrow text-tertiary font-medium mr-2" to="/scenicSpot">查看更多景點</RouterLink>
     </div>
     <!-- 直式卡 -->
-    <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <Loading v-if="spotVerCardData.length <= 0" />
-      <CardVer :cardVers="spotVerCardData" v-else />
+    <Loading v-if="spotVerCardData.length <= 0" />
+    <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4" v-else>
+      <CardVer :cardVers="spotVerCardData" />
     </section>
   </article>
   <!-- 美食 -->
@@ -148,9 +148,9 @@ function toDetail(item) {
       <RouterLink class="btn-arrow text-tertiary font-medium mr-2" to="/restaurant">查看更多美食</RouterLink>
     </div>
     <!-- 直式卡 -->
-    <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4">
-      <Loading v-if="cateringCardData.length <= 0" />
-      <CardVer :cardVers="cateringCardData" v-else />
+    <Loading v-if="cateringCardData.length <= 0" />
+    <section class="grid lg:grid-cols-4 grid-cols-2 md:gap-x-7 gap-x-4 agp-y-4" v-else>
+      <CardVer :cardVers="cateringCardData" />
     </section>
   </article>
 </template>

@@ -1,7 +1,9 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import { useGetDataStore } from '@/stores/useGetDataStore'
 import { usePageChangeStore } from '@/stores/usePageChangeStore'
 import { useRandomDataStore } from '@/stores/useRandomDataStore'
@@ -72,31 +74,74 @@ function showMoreBtn() {
     path: pageName,
   })
 }
-// GPS location
+// OSM + leaflet 地圖
+const mapRef = ref({})
+onMounted(() => {
+  const tagName = showInfo.value.table.Name
+  // 座標位置建立順序是固定
+  const location = [
+    // 緯度
+    showInfo.value.table.Position.PositionLat,
+    // 經度
+    showInfo.value.table.Position.PositionLon,
+  ]
+  // L.map(指定DOM元素, 參數物件)
+  const map = L.map(mapRef.value, {
+    // 設定經緯度
+    center: location,
+    // 設定縮放
+    zoom: 17,
+  })
+  // L.tileLayer - 建立圖資
+  // {s}：圖磚請求的 subDomain 預設為 a、b、c
+  // {z}：地圖的 zoom 等級
+  // {x}: 圖磚的 x 座標
+  // {y}: 圖磚的 y 座標
+  // attribution 圖資版權設定
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map)
+  // 標記位置
+  const marker = L.marker(location).addTo(map)
+  // 點擊位置才會顯示訊息框
+  // 最後面加入 .openPopup() 會直接顯示
+  marker.bindPopup(`<b>${tagName}</b>`).addTo(map).openPopup()
+})
+
 // const DefaultCoordinates = {
 //   lat: 23.4698799,
 //   lon: 120.9572688,
 //   n: 21,
 // };
-function GPSsuccess(position) {
-  const lon = position.coords.longitude
-  const lat = position.coords.latitude
-  console.log('g', position)
-  console.log('nt', lon, lat)
-}
-function GPSerror(error) {
-  console.log('err', error)
-}
-const GPSoptions = {
-  enableHighAccuracy: true,
-  maximumAge: 30000,
-  timeout: 10000,
-}
-navigator.geolocation.getCurrentPosition(
-  GPSsuccess,
-  GPSerror,
-  GPSoptions,
-)
+
+// const GPSoptions = {
+//   // 精準定位
+//   enableHighAccuracy: true,
+//   maximumAge: 30000,
+//   timeout: 10000,
+// }
+// function GPSsuccess(position) {
+//   const lon = position.coords.longitude
+//   const lat = position.coords.latitude
+//   console.log('g', position)
+//   console.log('nt', lon, lat)
+// }
+// function GPSerror(error) {
+//   map.value.innerText = `使用者拒絕系統定位\n\n${error.message}`
+//   console.log('err', error)
+// }
+
+// console.log(navigator.geolocation)
+
+// if(!navigator.geolocation) {
+//   map.value.innerText = '您的瀏覽器不支援系統定位\n\nGeolocation is not supported by your browse'
+// } else {
+//   navigator.geolocation.getCurrentPosition(
+//     GPSsuccess,
+//     GPSerror,
+//     GPSoptions,
+//   )
+// }
 // 置頂
 router.afterEach(() => {
   window.scrollTo(0, 0)
@@ -109,11 +154,12 @@ router.afterEach(() => {
   <section class="md:mb-7 mb-4">
     <Carousel :showData="showDetail" />
   </section>
-  <!-- 詳細內容 -->
+  <!-- 主要內容 -->
   <article class="mb-15">
     <h2 class="md:text-4xl text-2xl font-light md:mb-3 mb-2">
       {{ showDetail.Name }}
     </h2>
+    <!-- 類別項目 -->
     <section class="flex md:mb-7 mb-4">
       <span class="text-tag hover:text-primary md:text-xl text-sm border border-tag hover:border-primary rounded-[20px] py-1 px-4 mr-2">
         # {{ showInfo.ctType }}
@@ -124,6 +170,7 @@ router.afterEach(() => {
         </span>
       </template>
     </section>
+    <!-- 詳細描述 -->
     <section class="md:mb-16 mb-8">
       <h3 class="md:text-xl text-lg md:font-bold font-medium md:mb-3 mb-2">
         {{ showInfo.subTitle }}介紹：
@@ -132,6 +179,7 @@ router.afterEach(() => {
         {{ showDetail.Description }}
       </p>
     </section>
+    <!-- 相關資訊 -->
     <section class="grid md:grid-cols-2 grid-cols-1 md:gap-8 md:bg-transparent bg-info">
       <div class="inline-block">
         <table class="block bg-info md:p-8 px-4 py-8 md:rounded-xl rounded-none">
@@ -205,7 +253,9 @@ router.afterEach(() => {
         </table>
       </div>
       <aside>
-        <div class="map md:mb-8 mb-5"></div>
+        <div class="map md:mb-8 mb-5">
+          <div class="w-full h-full flex flex-col justify-center items-center text-center" ref="mapRef"></div>
+        </div>
         <h4 class="md:text-xl text-lg font-bold mb-5">周邊資訊：</h4>
         <div class="grid md:grid-cols-3 grid-cols-1 md:gap-x-7 md:gap-y-0 gap-y-2">
           <button class="btn-spot" type="button"></button>
