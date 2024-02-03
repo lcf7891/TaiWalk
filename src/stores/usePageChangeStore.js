@@ -5,17 +5,17 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 export const usePageChangeStore = defineStore('PageNav', () => {
   const router = useRouter()
   const showDetail = ref({})
-
+  
   function toDetail(item) {
     showDetail.value = item
     router.push({
-      name: 'Detailed'
+      path: `/detailed/${item.ID}`
     })
   }
 
   return {
     showDetail,
-    toDetail
+    toDetail,
   }
 })
 

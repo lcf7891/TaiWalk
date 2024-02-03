@@ -24,7 +24,7 @@ watchEffect(() => {
     <ul class="flex">
       <li v-for="item in breadcrumb" :key="item.title">
         <RouterLink class="md:text-base text-xs text-quinary hover:text-primary" :to="item.path">{{ item.title }}</RouterLink>
-        <span class="text-line mx-2">/</span>
+        <span class="text-primary mx-2">/</span>
       </li>
       <slot></slot>
     </ul>
@@ -33,7 +33,7 @@ watchEffect(() => {
 
 <style lang="postcss" scoped>
   li:nth-last-child(1) a {
-    @apply text-primary;
+    @apply text-quinary;
   }
   li:nth-last-child(1) span {
     @apply hidden;

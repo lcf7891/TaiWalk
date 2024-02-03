@@ -61,7 +61,12 @@ export const useSearchStore = defineStore('searchData', () => {
       // 活動資料增加日期篩選
       if (pageStatus === 'Activity') {
         const tempAry = chooseData(pageStatus)
-        dataAry = checkEventTime(tempAry, user.date)
+        if (user.date === undefined) {
+          const date = new Date().toISOString().split('T')[0]
+          dataAry = checkEventTime(tempAry, date)
+        } else {
+          dataAry = checkEventTime(tempAry, user.date)
+        }
       } else {
         dataAry = chooseData(pageStatus)
       }

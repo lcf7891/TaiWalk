@@ -41,12 +41,16 @@ const router = createRouter({
       }
     },
     {
-      path: '/detailed',
+      path: '/detailed/:id',
       name: 'Detailed',
       component: () => import('../views/DetailedView.vue'),
-      meta: {}
     }
-  ]
+  ],
+  scrollBehavior () {
+    return {
+      top: 0,
+    }
+  }
 })
 
 export default router

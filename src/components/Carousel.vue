@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { register } from 'swiper/element/bundle'
 import { usePageChangeStore } from '@/stores/usePageChangeStore'
