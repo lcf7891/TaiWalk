@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView, useRoute, useRouter } from 'vue-router'
-import NavBar from '@/components/NavBar.vue'
-import Footer from '@/components/Footer.vue'
+import NavBar from '@/components/Navbar.vue'
+import FooterDiv from '@/components/Footer.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -20,7 +20,7 @@ if (route.name !== 'home') {
     </section>
   </main>
 
-  <Footer />
+  <FooterDiv />
 </template>
 
 <style>
