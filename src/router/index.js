@@ -46,7 +46,7 @@ const router = createRouter({
       component: () => import('../views/DetailedView.vue'),
       children: [
         {
-          path: 'leaflet/:id',
+          path: 'map/:id',
           component: () => import('../components/leafletOSM.vue'),
         }
       ],

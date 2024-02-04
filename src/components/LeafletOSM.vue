@@ -34,8 +34,15 @@ function leafletOSM() {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map)
+  // L.icon
+  const customIcon = L.icon({
+  iconUrl: '/src/assets/images/icon/spot24_Y.svg',
+  iconSize: [32, 32],
+})
   // L.marker
-  const marker = L.marker(location).addTo(map)
+  const marker = L.marker(location, {
+    icon: customIcon,
+  }).addTo(map)
   // 點擊位置才會顯示訊息框
   // 最後面加入 .openPopup() 會直接顯示
   marker.bindPopup(`<b>${tagName}</b>`).addTo(map).openPopup()
