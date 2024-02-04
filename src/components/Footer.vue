@@ -10,7 +10,7 @@ const codeWriter = ref(([]+!{})[~+[]*~+[]] + ([]+!{})[~+[]+~+[]*~!+[]+~+[]*~+[]]
   <footer class="text-center bg-quaternary py-5">
     <p class="text-sm text-white">
       Copyright &copy; {{ isYear }} 
-      台灣走走ㆍTai Walk - 
+      台灣走走ㆍTai Walk 
       Design：<a class="hover:text-line" :href="design" target="_blank" rel="noreferrer noopener">早餐</a> / 
       Layout：<a class="hover:text-line" href="#">{{ codeWriter }}</a>
     </p>
