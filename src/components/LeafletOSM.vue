@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { usePageChangeStore } from '../stores/usePageChangeStore';
+import { usePageChangeStore } from '../stores/usePageChangeStore'
 
 const pageStore = usePageChangeStore()
 const { showDetail } = storeToRefs(pageStore)
