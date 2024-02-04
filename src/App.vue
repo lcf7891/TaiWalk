@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView, useRoute, useRouter } from 'vue-router'
-import NavBar from '@/components/Navbar.vue'
+import HomeNavigation from '@/components/Navbar.vue'
 import FooterDiv from '@/components/Footer.vue'
 
 const route = useRoute()
@@ -12,7 +12,7 @@ if (route.name !== 'home') {
 </script>
 
 <template>
-  <NavBar />
+  <HomeNavigation />
 
   <main class="grow">
     <section class="container mx-auto md:pb-12 pb-6 px-4 mb-auto">
