@@ -17,7 +17,7 @@ export const useZipCodeStore = defineStore('ZipCode', () => {
     },
     {
       enName: 'Taoyuan',
-      ctName: '桃園縣',
+      ctName: '桃園市',
     },
     {
       enName: 'Hsinchu',

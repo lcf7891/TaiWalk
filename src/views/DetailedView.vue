@@ -121,8 +121,10 @@ function detailBtn(type) {
       </button>
       <span class="text-primary mx-2">/</span>
     </li>
-    <li class="md:text-base text-xs text-primary">
-      {{ showDetail.Name}}
+    <li>
+      <p class="inline md:text-base text-xs text-primary">
+        {{ showDetail.Name}}
+      </p>
     </li>
   </BreadCrumb>
   <section class="md:mb-7 mb-4">
@@ -235,7 +237,7 @@ function detailBtn(type) {
       </div>
       <aside>
         <div class="w-full h-72 bg-info rounded-xl md:mb-8 mb-5">
-          <RouterView :key="showDetail.ID" />
+          <RouterView class="z-0" :key="showDetail.ID" />
         </div>
         <h4 class="md:text-xl text-lg font-bold mb-5">周邊資訊：</h4>
         <div class="grid md:grid-cols-3 grid-cols-1 md:gap-x-7 md:gap-y-0 gap-y-2">
