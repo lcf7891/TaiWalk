@@ -9,7 +9,7 @@ export const usePageChangeStore = defineStore('PageNav', () => {
   function toDetail(item) {
     showDetail.value = item
     router.push({
-      path: `/detailed/${item.ID}`
+      path: `/detailed/leaflet/${item.ID}`
     })
   }
 

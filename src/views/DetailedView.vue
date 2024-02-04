@@ -76,42 +76,6 @@ function detailBtn(type) {
   })
 }
 
-// // 地圖
-// const mapRef = ref({})
-// console.log(showDetail)
-// function leafletOSM() {
-//   const tagName = showDetail.value.Name
-//   // 座標位置建立順序是固定
-//   const location = [
-//     // 緯度
-//     showDetail.value.Position.PositionLat,
-//     // 經度
-//     showDetail.value.Position.PositionLon,
-//   ]
-//   // L.map(指定DOM元素, 參數物件)
-//   const map = L.map(mapRef.value, {
-//     // 設定經緯度
-//     center: location,
-//     // 設定縮放
-//     zoom: 17,
-//   })
-//   // L.tileLayer - 建立圖資
-//   // {s}：圖磚請求的 subDomain 預設為 a、b、c
-//   // {z}：地圖的 zoom 等級
-//   // {x}: 圖磚的 x 座標
-//   // {y}: 圖磚的 y 座標
-//   // attribution 圖資版權設定
-//   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//   }).addTo(map)
-//   // L.marker
-//   const marker = L.marker(location).addTo(map)
-//   // 點擊位置才會顯示訊息框
-//   // 最後面加入 .openPopup() 會直接顯示
-//   marker.bindPopup(`<b>${tagName}</b>`).addTo(map).openPopup()
-// }
-// onMounted(() => leafletOSM())
-
 // 使用者位置
 // function userPosition() {
 //   const GPSsuccess = (position) => {
@@ -151,7 +115,13 @@ function detailBtn(type) {
       <RouterLink class="md:text-base text-xs text-quinary hover:text-primary" :to="`/${Type}`">{{ dynamicInfo.ccType }}</RouterLink>
       <span class="text-primary mx-2">/</span>
     </li>
-    <li class="text-primary">
+    <li>
+      <button class="md:text-base text-xs text-quaternary hover:text-primary" type="button" @click="detailBtn(showDetail.Type)">
+        {{ showDetail.City}}
+      </button>
+      <span class="text-primary mx-2">/</span>
+    </li>
+    <li class="md:text-base text-xs text-primary">
       {{ showDetail.Name}}
     </li>
   </BreadCrumb>
@@ -265,7 +235,7 @@ function detailBtn(type) {
       </div>
       <aside>
         <div class="w-full h-72 bg-info rounded-xl md:mb-8 mb-5">
-          <div class="w-full h-full flex flex-col justify-center items-center" ref="mapRef"></div>
+          <RouterView :key="showDetail.ID" />
         </div>
         <h4 class="md:text-xl text-lg font-bold mb-5">周邊資訊：</h4>
         <div class="grid md:grid-cols-3 grid-cols-1 md:gap-x-7 md:gap-y-0 gap-y-2">

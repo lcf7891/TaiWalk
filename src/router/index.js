@@ -41,9 +41,15 @@ const router = createRouter({
       }
     },
     {
-      path: '/detailed/:id',
+      path: '/detailed',
       name: 'Detailed',
       component: () => import('../views/DetailedView.vue'),
+      children: [
+        {
+          path: 'leaflet/:id',
+          component: () => import('../components/leafletOSM.vue'),
+        }
+      ],
     }
   ],
   scrollBehavior () {
