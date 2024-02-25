@@ -26,6 +26,7 @@ if (route.name !== 'home') {
 <style>
   html, body, #app {
     height: 100%;
+    background-color: #FFFFFF;
   }
   #app {
     display: flex;

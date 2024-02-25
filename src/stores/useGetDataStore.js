@@ -161,6 +161,7 @@ export const useGetDataStore = defineStore('getData', () => {
   async function GetData(isType) {
     try {
       const response = await axiosTDX.get(isType)
+      console.log(response.data)
       OrganizeInfo(response.data, isType)
     } catch (error) {
       console.error(`錯誤反饋資訊：`, error)

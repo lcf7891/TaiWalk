@@ -12,6 +12,7 @@ function btnChange() {
 const searchStore = useSearchStore()
 function pageClear() {
   searchStore.ResetData()
+  toggleMenu.value = false
 }
 </script>
 
